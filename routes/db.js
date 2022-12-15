@@ -4,11 +4,11 @@ const { password } = require('pg/lib/defaults');
 const pool = new Pool(
 
     {
-        user: 'amr',
-        database: 'dbproject',
+        user: 'dbadmin',
+        database: 'animedatabase',
         port: 5432,
-        host: 'localhost',
-        password: 'aaa'
+        host: 'dpg-cedmnqpa6gdvngfu264g-a',
+        password: 'arxNGgGYtPeHegKx5uli4zYYjTyD7WrA'
     }
 )
 
