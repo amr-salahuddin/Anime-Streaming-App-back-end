@@ -3,6 +3,8 @@ var router = express.Router();
 var ANIME = require('../models/Anime.js');
 var AUTHOR = require('../models/Author.js');
 const SINGER = require('../models/Singer.js');
+const NEWS = require('../models/news.js');
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -11,6 +13,8 @@ router.get('/', function (req, res, next) {
 
 
 var anime = new ANIME();
+var news = new NEWS();
+
 var author = new AUTHOR();
 var singer = new SINGER();
 
@@ -22,15 +26,25 @@ var singer = new SINGER();
 //--------------------------------ANIME-------------------------------------------------------------
 //--------------------------------ANIME-------------------------------------------------------------
 //--------------------------------ANIME-------------------------------------------------------------
-router.get('/select/anime', (req, res) => {
+router.get('/anime_list', (req, res) => {
 
-    anime.selectAnime().then(data => {
+    anime.anime_list().then(data => {
         res.json(data);
 
     })
 
 
 });
+router.get('/anime_details', (req, res) => {
+
+    anime.anime_details(req.query.animeId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
 router.post('/insert/anime', (req, res, next) => {
     let pars = req.body;
     anime.insertAnime(pars.animeName, pars.authorId, pars.studioId, pars.singerId, pars.genre, pars.rate, pars.episodes, pars.yearPub, pars.imgLink).then(data => {
@@ -164,3 +178,13 @@ router.delete('/delete/singer', (req, res, next) => {
 module.exports = router;
 
 //___
+
+router.get('/news', (req, res) => {
+
+    news.selectNews().then(data => {
+        res.json(data);
+
+    })
+
+
+});
