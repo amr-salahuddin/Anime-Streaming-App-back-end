@@ -22,9 +22,7 @@ Foreign key (Myuser_id) references Myuser
 Create table Author
 (
 id SERIAL PRIMARY KEY,
-firstN varchar(100),
-title varchar(100),
-LastN varchar(100),
+author_name varchar(100),
 Birthdate  DATE  ,  -- when inserting into date u should know it's a date --> TO_DATE('mydate','DD/MM/YYYY')
 Years_active integer ,
 Atype   varchar(100) 
@@ -35,9 +33,7 @@ Atype   varchar(100)
 Create table Singer 
 (
 id SERIAL PRIMARY KEY,
-FirstN varchar(100),
-title varchar(100),
-LastN varchar(100),
+singer_name varchar(100),
 Birthdate Date 
 );
 
@@ -59,13 +55,14 @@ CREATE TABLE Anime(
     Anime_name varchar(30),
     author_id int , --ref
     studio_id int , --ref
-    date_published DATE,
-    rate int,
+    year_published int,
+    rate float,
     episodes int,
     genre varchar(30),
 	Foreign key (author_id) references author
 	on delete cascade 
-	on update cascade
+	on update cascade,
+    img_link text
 );
 
 
