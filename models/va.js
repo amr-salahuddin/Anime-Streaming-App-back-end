@@ -7,7 +7,7 @@ class VA {
         try {
             const res = await pool.query(
 
-                `INSERT INTO VA (va_name,birth_date,img_link) values ('${vaName}','${birthDate}','${imgLink}');`);
+                `INSERT INTO VA (va_name,birth_date,va_img_link) values ('${vaName}','${birthDate}','${imgLink}');`);
             return 1;
         }
         catch (error) {
@@ -36,10 +36,10 @@ class VA {
 
     async selectVAByAnime(animeId) {
         try {
-            let vaId = `(SELECT va_id from anime where anime.id =${animeId})`;
+            let vaId = `(SELECT anime.va_id from anime where anime.id =${animeId})`;
             const res = await pool.query(
 
-                `select * from va where id = ${vaId}`)
+                `select * from va where va_id = ${vaId}`)
             return res.rows;
         }
         catch (error) {
@@ -55,7 +55,7 @@ class VA {
         try {
             const res = await pool.query(
 
-                `UPDATE VA SET (va_name,birth_date,img_link) = ('${vaName}','${birthDate}','${imgLink}') where id = '${vaId}';`);
+                `UPDATE VA SET (va_name,birth_date,va_img_link) = ('${vaName}','${birthDate}','${imgLink}') where va_id = '${vaId}';`);
             return 1;
         }
         catch (error) {
@@ -71,7 +71,7 @@ class VA {
         try {
             const res = await pool.query(
 
-                `DELETE FROM VA WHERE id = '${vaId}'`);
+                `DELETE FROM VA WHERE va_id = '${vaId}'`);
             return 1;
         }
         catch (error) {

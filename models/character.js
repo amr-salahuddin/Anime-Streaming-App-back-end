@@ -7,7 +7,7 @@ class CHARACTER {
         try {
             const res = await pool.query(
 
-                `INSERT INTO Character (character_name,character_role,va_id,anime_id,img_link) values ('${characterName}',${characterRole},${vaId},${animeId},'${imgLink}');`);
+                `INSERT INTO Character (character_name,character_role,va_id,anime_id,char_img_link) values ('${characterName}',${characterRole},${vaId},${animeId},'${imgLink}');`);
             return 1;
         }
         catch (error) {
@@ -54,7 +54,7 @@ class CHARACTER {
         try {
             const res = await pool.query(
 
-                `UPDATE Character SET (character_name,character_role,va_id,anime_id,img_link) = ('${characterName}',${characterRole},${vaId},${animeId},'${imgLink}') where id = ${characterId};`);
+                `UPDATE Character SET (character_name,character_role,va_id,anime_id,char_img_link) = ('${characterName}',${characterRole},${vaId},${animeId},'${imgLink}') where char_id = ${characterId};`);
             return 1;
         }
         catch (error) {
@@ -70,7 +70,7 @@ class CHARACTER {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Character WHERE id = '${characterId}'`);
+                `DELETE FROM Character WHERE char_id = '${characterId}'`);
             return 1;
         }
         catch (error) {

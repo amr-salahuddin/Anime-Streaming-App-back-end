@@ -55,12 +55,9 @@ class ANIME {
 
                 `select singer_name ,singer.id from SINGER , ANIME where anime.id=${animeId} AND SINGER.id = singer_id
                        `)
-            const va = await pool.query(
-
-                `SELECT * from character where anime_id=${animeId} `)
             const character = await pool.query(
 
-                `SELECT * from character where anime_id=${animeId} `)
+                `SELECT * from character,va where anime_id=${animeId} AND character.va_id =va.va_id `)
 
             const awards = await pool.query(
 
@@ -69,7 +66,7 @@ class ANIME {
             const episodes = await pool.query(
 
                 `SELECT   episode_number,episode_link   from episodes where anime_id=${animeId} `)
-            let x = { 'anime': anime.rows[0], 'author': author.rows[0], 'studio': studio.rows[0], 'singer': singer.rows[0], 'va': va.rows, "characters": character.rows, "awards": awards.rows, "episodes": episodes.rows };
+            let x = { 'anime': anime.rows[0], 'author': author.rows[0], 'studio': studio.rows[0], 'singer': singer.rows[0], "characters": character.rows, "awards": awards.rows, "episodes": episodes.rows };
             return x;
         }
         catch (error) {
