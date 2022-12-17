@@ -24,7 +24,7 @@ class COMMENT {
         try {
             const res = await pool.query(
 
-                "select * from comment;")
+                "select comment_date,comment_id,anime_id,date_published,user_id,username from comment and useranime where user_id = useranime.id;")
             return res.rows;
         }
         catch (error) {
