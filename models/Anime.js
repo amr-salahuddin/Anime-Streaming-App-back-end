@@ -41,6 +41,8 @@ class ANIME {
 
     async anime_details(animeId) {
         try {
+            const anime = await pool.query
+                (`Select anime_name,rate,episodes,genre,img_link,year_published from anime where id=${animeId}`)
             const author = await pool.query(
 
                 `select author_name ,author.id from author , anime where anime.id=${animeId} AND author.id = author_id
@@ -67,7 +69,7 @@ class ANIME {
             const episodes = await pool.query(
 
                 `SELECT   episode_number,episode_link   from episodes where anime_id=${animeId} `)
-            let x = { 'author': author.rows[0], 'studio': studio.rows[0], 'singer': singer.rows[0], 'va': va.rows, "characters": character.rows, "awards": awards.rows, "episodes": episodes.rows };
+            let x = { 'anime': anime.rows[0], 'author': author.rows[0], 'studio': studio.rows[0], 'singer': singer.rows[0], 'va': va.rows, "characters": character.rows, "awards": awards.rows, "episodes": episodes.rows };
             return x;
         }
         catch (error) {
