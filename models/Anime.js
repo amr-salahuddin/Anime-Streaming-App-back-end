@@ -53,11 +53,9 @@ class ANIME {
 
                 `select singer_name ,singer.id from SINGER , ANIME where anime.id=${animeId} AND SINGER.id = singer_id
                        `)
-
             const va = await pool.query(
 
-                `select va_name ,va.id from VA , ANIME where anime.id=${animeId} AND VA.id = va_id
-                               `)
+                `SELECT * from character where anime_id=${animeId} `)
             const character = await pool.query(
 
                 `SELECT * from character where anime_id=${animeId} `)
@@ -69,7 +67,7 @@ class ANIME {
             const episodes = await pool.query(
 
                 `SELECT   episode_number,episode_link   from episodes where anime_id=${animeId} `)
-            let x = { 'author': author.rows[0], 'studio': studio.rows[0], 'singer': singer.rows[0], 'va': va.rows[0], "characters": character.rows, "awards": awards.rows, "episodes": episodes.rows };
+            let x = { 'author': author.rows[0], 'studio': studio.rows[0], 'singer': singer.rows[0], 'va': va.rows, "characters": character.rows, "awards": awards.rows, "episodes": episodes.rows };
             return x;
         }
         catch (error) {
@@ -79,12 +77,12 @@ class ANIME {
 
     }
 
-    async updateAnime(animeName, authorId, studioId, singerId, genre, rate, episodes, yearPub, imgLink, old_animeName) {
+    async updateAnime(animeName, authorId, studioId, singerId, genre, rate, episodes, yearPub, imgLink, animeId) {
         try {
 
             const res = await pool.query(
 
-                `UPDATE Anime  SET (anime_name,author_id,studio_id,singer_id,genre,rate,episodes,year_published,img_link) = ('${animeName}',${authorId},${studioId},${singerId},'${genre}',${rate},${episodes},${yearPub},'${imgLink}') WHERE anime_name='${old_animeName}';`);
+                `UPDATE Anime  SET (anime_name,author_id,studio_id,singer_id,genre,rate,episodes,year_published,img_link) = ('${animeName}',${authorId},${studioId},${singerId},'${genre}',${rate},${episodes},${yearPub},'${imgLink}') WHERE id='${animeId}';`);
             return 1;
         }
         catch (error) {
@@ -97,7 +95,7 @@ class ANIME {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Anime WHERE id = '${animeName}'`);
+                `DELETE FROM Anime WHERE id = '${animeId}'`);
             return 1;
         }
         catch (error) {

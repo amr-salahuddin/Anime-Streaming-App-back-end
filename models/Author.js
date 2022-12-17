@@ -36,7 +36,7 @@ class AUTHOR {
 
     async selectAuthorByAnime(animeId) {
         try {
-            let authorId = `(SELECT author_id from anime where anime_id ='${animeId}')`;
+            let authorId = `(SELECT author_id from anime where anime.id =${animeId})`;
             const res = await pool.query(
 
                 `select * from author where id = ${authorId}`)
@@ -51,11 +51,11 @@ class AUTHOR {
 
 
 
-    async updateAuthor(authorName, birthDate, yearsActive, animeGenre, imgLink, old_authorName) {
+    async updateAuthor(authorName, birthDate, yearsActive, animeGenre, imgLink, authorId) {
         try {
             const res = await pool.query(
 
-                `UPDATE Author SET (author_name,birth_date,years_active,anime_genre,img_link) = ('${authorName}','${birthDate}',${yearsActive},'${animeGenre}','${imgLink}') where author_name = '${old_authorName}';`);
+                `UPDATE Author SET (author_name,birth_date,years_active,anime_genre,img_link) = ('${authorName}','${birthDate}',${yearsActive},'${animeGenre}','${imgLink}') where id = ${authorId};`);
             return 1;
         }
         catch (error) {
@@ -67,11 +67,11 @@ class AUTHOR {
 
 
 
-    async deleteAuthor(authorName) {
+    async deleteAuthor(authorId) {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Author WHERE author_name = '${authorName}'`);
+                `DELETE FROM Author WHERE id = '${authorId}'`);
             return 1;
         }
         catch (error) {

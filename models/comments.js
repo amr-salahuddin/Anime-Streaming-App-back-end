@@ -2,12 +2,12 @@
 const { pool } = require('./db');
 
 
-class SINGER {
-    async insertSinger(singerName, birthDate, imgLink) {
+class COMMENT {
+    async insertComment(commentData, userId, animeId, datePublished) {
         try {
             const res = await pool.query(
 
-                `INSERT INTO Singer (singer_name,birth_date,img_link) values ('${singerName}','${birthDate}','${imgLink}');`);
+                `INSERT INTO Comment (comment_data,user_id,anime_id,date_published) values ('${commentData}',${userId},${animeId},'${datePublished}');`);
             return 1;
         }
         catch (error) {
@@ -20,11 +20,11 @@ class SINGER {
 
 
 
-    async selectAllSingers() {
+    async selectAllComments() {
         try {
             const res = await pool.query(
 
-                "select * from singer;")
+                "select * from comment;")
             return res.rows;
         }
         catch (error) {
@@ -34,12 +34,11 @@ class SINGER {
 
     }
 
-    async selectSingerByAnime(animeId) {
+    async selectCommentByUser(userId) {
         try {
-            let singerId = `(SELECT singer_id from anime where anime.id =${animeId})`;
             const res = await pool.query(
 
-                `select * from singer where id = ${singerId}`)
+                `select * from comment where user_id = ${userId}`)
             return res.rows;
         }
         catch (error) {
@@ -51,11 +50,11 @@ class SINGER {
 
 
 
-    async updateSinger(singerName, birthDate, imgLink, singerId) {
+    async updateComment(commentData, userId, animeId, datePublished, commentId) {
         try {
             const res = await pool.query(
 
-                `UPDATE Singer SET (singer_name,birth_date,img_link) = ('${singerName}','${birthDate}','${imgLink}') where id = ${singerId};`);
+                `UPDATE  Comment SET (comment_data,user_id,anime_id,date_published) = ('${commentData}',${userId},${animeId},'${datePublished}') WHERE id = ${commentId};`);
             return 1;
         }
         catch (error) {
@@ -64,14 +63,11 @@ class SINGER {
 
 
     }
-
-
-
-    async deleteSinger(singerId) {
+    async deleteComment(commentId) {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Singer WHERE id = '${singerId}'`);
+                `DELETE FROM Comment WHERE id = '${commentId}'`);
             return 1;
         }
         catch (error) {
@@ -82,4 +78,4 @@ class SINGER {
     }
 }
 
-module.exports = SINGER;
+module.exports = COMMENT;

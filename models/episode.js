@@ -2,12 +2,12 @@
 const { pool } = require('./db');
 
 
-class SINGER {
-    async insertSinger(singerName, birthDate, imgLink) {
+class EPISODE {
+    async insertEpisode(episodeNumber, episodeLink, animeId) {
         try {
             const res = await pool.query(
 
-                `INSERT INTO Singer (singer_name,birth_date,img_link) values ('${singerName}','${birthDate}','${imgLink}');`);
+                `INSERT INTO episodes (episode_number,episode_link,anime_id) values (${episodeNumber},'${episodeLink}',${animeId});`);
             return 1;
         }
         catch (error) {
@@ -20,11 +20,11 @@ class SINGER {
 
 
 
-    async selectAllSingers() {
+    async selectAllEpisodes() {
         try {
             const res = await pool.query(
 
-                "select * from singer;")
+                "select * from episodes;")
             return res.rows;
         }
         catch (error) {
@@ -34,12 +34,11 @@ class SINGER {
 
     }
 
-    async selectSingerByAnime(animeId) {
+    async selectEpisodeByAnime(animeId) {
         try {
-            let singerId = `(SELECT singer_id from anime where anime.id =${animeId})`;
             const res = await pool.query(
 
-                `select * from singer where id = ${singerId}`)
+                `select * from episodes where anime_id = ${animeId}`)
             return res.rows;
         }
         catch (error) {
@@ -51,11 +50,11 @@ class SINGER {
 
 
 
-    async updateSinger(singerName, birthDate, imgLink, singerId) {
+    async updateEpisode(episodeNumber, episodeLink, old_episodeNumber, animeId) {
         try {
             const res = await pool.query(
 
-                `UPDATE Singer SET (singer_name,birth_date,img_link) = ('${singerName}','${birthDate}','${imgLink}') where id = ${singerId};`);
+                `UPDATE  episodes SET (episode_number,episode_link,anime_id) = (${episodeNumber},${episodeLink}) WHERE anime_id=${animeId} AND episode_number =${episodeNumber};`);
             return 1;
         }
         catch (error) {
@@ -65,13 +64,11 @@ class SINGER {
 
     }
 
-
-
-    async deleteSinger(singerId) {
+    async deleteEpisode(episodeNumber, animeId) {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Singer WHERE id = '${singerId}'`);
+                `DELETE FROM episodes WHERE anime_id = ${animeId} AND episode_number=${episodeNumber} `);
             return 1;
         }
         catch (error) {
@@ -82,4 +79,4 @@ class SINGER {
     }
 }
 
-module.exports = SINGER;
+module.exports = EPISODE;
