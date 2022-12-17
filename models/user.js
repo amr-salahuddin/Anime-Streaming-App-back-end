@@ -7,7 +7,7 @@ class USER {
         try {
             const res = await pool.query(
 
-                `INSERT INTO User (username,password,email,user_attribute,date_created) values ('${username}','${password}','${email}',${userAttribute},'${dateCreated}');`);
+                `INSERT INTO useranime (username,password,email,user_attribute,date_created) values ('${username}','${password}','${email}',${userAttribute},'${dateCreated}');`);
             return 1;
         }
         catch (error) {
@@ -24,7 +24,7 @@ class USER {
         try {
             const res = await pool.query(
 
-                "select * from user;")
+                "select * from useranime;")
             return res.rows;
         }
         catch (error) {
@@ -37,7 +37,7 @@ class USER {
         try {
             const res = await pool.query(
 
-                `UPDATE User SET (username,password,email,user_attribute) = ('${username}','${password}','${email}',${userAttribute}) where id =${userId};`);
+                `UPDATE useranime SET (username,password,email,user_attribute) = ('${username}','${password}','${email}',${userAttribute}) where id =${userId};`);
             return 1;
         }
         catch (error) {
@@ -50,7 +50,7 @@ class USER {
         try {
             const res = await pool.query(
 
-                `DELETE FROM User WHERE id = '${userId}'`);
+                `DELETE FROM useranime WHERE id = '${userId}'`);
             return 1;
         }
         catch (error) {

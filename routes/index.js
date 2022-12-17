@@ -541,7 +541,7 @@ router.post('/delete/comment', (req, res, next) => {
 
 
 router.get('/select/allUsers', (req, res) => {
-    comment.selectAllUsers().then(data => {
+    user.selectAllUsers().then(data => {
         res.json(data);
 
     })
@@ -552,7 +552,7 @@ router.get('/select/allUsers', (req, res) => {
 router.post('/insert/user', (req, res, next) => {
     let pars = req.body;
     console.log(getCurDateForInsertion());
-    comment.insertUser(pars.username, pars.password, pars.email, pars.userAttribute, getCurDateForInsertion()).then(data => {
+    user.insertUser(pars.username, pars.password, pars.email, pars.userAttribute, getCurDateForInsertion()).then(data => {
         res.json(data);
     });
 
@@ -560,16 +560,16 @@ router.post('/insert/user', (req, res, next) => {
 
 });
 
-router.post('/update/comment', (req, res, next) => {
+router.post('/update/user', (req, res, next) => {
     let pars = req.body;
-    comment.updateUser(pars.username, pars.password, pars.email, pars.userAttribute, pars.userId).then(data => {
+    user.updateUser(pars.username, pars.password, pars.email, pars.userAttribute, pars.userId).then(data => {
         res.json(data);
     });
 });
 
-router.post('/delete/comment', (req, res, next) => {
+router.post('/delete/user', (req, res, next) => {
     let pars = req.body;
-    comment.deleteUser(pars.userId).then(data => {
+    user.deleteUser(pars.userId).then(data => {
         res.json(data);
     });
 });
