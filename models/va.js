@@ -34,9 +34,8 @@ class VA {
 
     }
 
-    async selectVAByAnime(animeId) {
+    async selectVA(vaId) {
         try {
-            let vaId = `(SELECT anime.va_id from anime where anime.id =${animeId})`;
             const res = await pool.query(
 
                 `select * from va where va_id = ${vaId}`)

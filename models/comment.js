@@ -34,11 +34,11 @@ class COMMENT {
 
     }
 
-    async selectCommentByUser(userId) {
+    async selectCommentsByAnime(animeId) {
         try {
             const res = await pool.query(
 
-                `select * from comment where user_id = ${userId}`)
+                `select * from comment where anime_id = ${animeId}`)
             return res.rows;
         }
         catch (error) {

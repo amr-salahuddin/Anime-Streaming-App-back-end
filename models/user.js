@@ -33,11 +33,11 @@ class USER {
 
 
     }
-    async insertUser(username, password, email, userAttribute, dateCreated, userId) {
+    async updateUser(username, password, email, userAttribute, userId) {
         try {
             const res = await pool.query(
 
-                `UPDATE User SET (username,password,email,user_attribute,date_created) = ('${username}','${password}','${email}',${userAttribute},'${dateCreated}') where id =${userId};`);
+                `UPDATE User SET (username,password,email,user_attribute) = ('${username}','${password}','${email}',${userAttribute}) where id =${userId};`);
             return 1;
         }
         catch (error) {

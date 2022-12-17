@@ -10,6 +10,8 @@ const EPISODE = require('../models/episode.js');
 
 const CHARACTER = require('../models/character.js');
 const ANIMEAWARDS = require('../models/AnimeAwards.js');
+const COMMENT = require('../models/comment.js');
+const USER = require('../models/user.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -18,6 +20,9 @@ router.get('/', function (req, res, next) {
 
 
 var anime = new ANIME();
+var comment = new COMMENT();
+var user = new USER();
+
 var news = new NEWS();
 
 var author = new AUTHOR();
@@ -37,6 +42,14 @@ var animeaward = new ANIMEAWARDS();
 //--------------------------------ANIME-------------------------------------------------------------
 //--------------------------------ANIME-------------------------------------------------------------
 //--------------------------------ANIME-------------------------------------------------------------
+
+function getCurDateForInsertion() {
+
+    let date = new Date();
+
+    let ret = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return ret;
+}
 router.get('/anime_list', (req, res) => {
 
     anime.anime_list().then(data => {
@@ -263,6 +276,14 @@ router.post('/delete/studio', (req, res, next) => {
 
 
 
+router.get('/select/va', (req, res) => {
+    va.selectVA(req.query.vaId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
 
 router.get('/select/allVAs', (req, res) => {
     va.selectAllVAs().then(data => {
@@ -454,3 +475,103 @@ router.post('/delete/animeaward', (req, res, next) => {
         res.json(data);
     });
 });
+
+
+
+//--------------------------------COMMENT-------------------------------------------------------------//--------------------------------COMMENT-------------------------------------------------------------
+//--------------------------------COMMENT-------------------------------------------------------------
+//--------------------------------COMMENT-------------------------------------------------------------
+//--------------------------------COMMENT-------------------------------------------------------------
+//--------------------------------COMMENT-------------------------------------------------------------
+
+
+
+
+router.get('/select/allComments', (req, res) => {
+    comment.selectAllComments().then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
+router.get('/select/commentsByAnime', (req, res) => {
+
+    comment.selectCommentsByAnime(req.query.animeId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+router.post('/insert/comment', (req, res, next) => {
+    let pars = req.body;
+    console.log(getCurDateForInsertion());
+    comment.insertComment(pars.commentData, pars.userId, pars.animeId, getCurDateForInsertion()).then(data => {
+        res.json(data);
+    });
+
+
+
+});
+
+router.post('/update/comment', (req, res, next) => {
+    let pars = req.body;
+    comment.updateComment(pars.commentData, pars.userId, pars.animeId, getCurDateForInsertion(), pars.commentId).then(data => {
+        res.json(data);
+    });
+});
+
+router.post('/delete/comment', (req, res, next) => {
+    let pars = req.body;
+    comment.deleteComment(pars.commentId).then(data => {
+        res.json(data);
+    });
+});
+
+
+//--------------------------------USER-------------------------------------------------------------//--------------------------------USER-------------------------------------------------------------
+//--------------------------------USER-------------------------------------------------------------
+//--------------------------------USER-------------------------------------------------------------
+//--------------------------------USER-------------------------------------------------------------
+//--------------------------------USER-------------------------------------------------------------
+
+
+
+
+router.get('/select/allUsers', (req, res) => {
+    comment.selectAllUsers().then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
+router.post('/insert/user', (req, res, next) => {
+    let pars = req.body;
+    console.log(getCurDateForInsertion());
+    comment.insertUser(pars.username, pars.password, pars.email, pars.userAttribute, getCurDateForInsertion()).then(data => {
+        res.json(data);
+    });
+
+
+
+});
+
+router.post('/update/comment', (req, res, next) => {
+    let pars = req.body;
+    comment.updateUser(pars.username, pars.password, pars.email, pars.userAttribute, pars.userId).then(data => {
+        res.json(data);
+    });
+});
+
+router.post('/delete/comment', (req, res, next) => {
+    let pars = req.body;
+    comment.deleteUser(pars.userId).then(data => {
+        res.json(data);
+    });
+});
+
+//
