@@ -201,17 +201,68 @@ router.post('/delete/singer', (req, res, next) => {
 
 module.exports = router;
 
-//___
+//--------------------------------NEWS-------------------------------------------------------------
+//--------------------------------NEWS-------------------------------------------------------------
+//--------------------------------NEWS-------------------------------------------------------------
+//--------------------------------NEWS-------------------------------------------------------------
+//--------------------------------NEWS-------------------------------------------------------------
+//--------------------------------NEWS-------------------------------------------------------------
+//--------------------------------NEWS-------------------------------------------------------------
+//--------------------------------NEWS-------------------------------------------------------------
 
-router.get('/news', (req, res) => {
+router.get('/select/allNews', (req, res) => {
 
-    news.selectNews().then(data => {
+    news.selectAllNews().then(data => {
         res.json(data);
 
     })
 
 
 });
+
+router.post('select/newsBy', (req, res) => {
+    let pars = req.body;
+    news.selectNewsBy(pars.animeId, pars.studioId, pars.characterId, pars.singerId, pars.authorId, pars.vaId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
+
+router.post('delete/news', (req, res) => {
+    let pars = req.body;
+    news.deleteNews(newsId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
+router.post('update/news', (req, res) => {
+    let pars = req.body;
+    news.updateNews(pars.link, pars.imgLink, pars.animeId, pars.studioId, pars.characterId, pars.singerId, pars.authorId, pars.vaId, getCurDateForInsertion(), pars.newsId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
+router.post('insert/news', (req, res) => {
+    let pars = req.body;
+    news.insertNews(pars.link, pars.imgLink, pars.animeId, pars.studioId, pars.characterId, pars.singerId, pars.authorId, pars.vaId, getCurDateForInsertion()).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
+
+
 
 //--------------------------------STUDIO-------------------------------------------------------------
 //--------------------------------STUDIO-------------------------------------------------------------
@@ -574,4 +625,3 @@ router.post('/delete/user', (req, res, next) => {
     });
 });
 
-//
