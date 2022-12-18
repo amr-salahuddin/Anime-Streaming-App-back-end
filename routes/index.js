@@ -71,7 +71,7 @@ router.get('/anime_details', (req, res) => {
 
 router.post('/insert/anime', (req, res, next) => {
     let pars = req.body;
-    anime.insertAnime(pars.animeName, pars.authorId, pars.studioId, pars.singerId, pars.genre, pars.rate, pars.episodes, pars.yearPub, pars.imgLink).then(data => {
+    anime.insertAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.rate, pars.episodes, pars.yearPub, pars.imgLink).then(data => {
         res.json(data);
     });
 
