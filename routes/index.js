@@ -13,6 +13,55 @@ const ANIMEAWARDS = require('../models/AnimeAwards.js');
 const COMMENT = require('../models/comment.js');
 const USER = require('../models/user.js');
 
+
+var user = new USER();
+
+
+function getCurDateForInsertion() {
+
+    let date = new Date();
+
+    let ret = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return ret;
+}
+
+//PP
+
+var jwt = require('jsonwebtoken');
+
+
+//signup
+router.post('/signup', function (req, res) {
+    let pars = req.body;
+
+    user.insertUser(req.username, req.password, req.email, req.userAttribute, getCurDateForInsertion()).then(data => {
+        res.json(data);
+
+    })
+
+});
+
+
+//signin
+router.post('/login', function (req, res) {
+    let pars = req.body;
+    // let thetoken = (pars.Token);
+    // if (thetoken)
+    //   console.log(thetoken);
+    user.authenticateUser(pars.username, pars.password).then(data => {
+        var token = jwt.sign({ data }, 'secret', { expiresIn: "10000ms" });
+        var decodedToken = jwt.decode(token);
+        console.log('Token:', token);
+        console.log('Decoded Token:', decodedToken);
+        res.json(data);
+    })
+
+});
+
+
+///PP
+//_____________________________
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
     res.render('index', { title: 'Express' });
@@ -21,7 +70,6 @@ router.get('/', function (req, res, next) {
 
 var anime = new ANIME();
 var comment = new COMMENT();
-var user = new USER();
 
 var news = new NEWS();
 
@@ -43,13 +91,6 @@ var animeaward = new ANIMEAWARDS();
 //--------------------------------ANIME-------------------------------------------------------------
 //--------------------------------ANIME-------------------------------------------------------------
 
-function getCurDateForInsertion() {
-
-    let date = new Date();
-
-    let ret = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    return ret;
-}
 router.get('/anime_list', (req, res) => {
 
     anime.anime_list().then(data => {

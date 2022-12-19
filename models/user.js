@@ -17,6 +17,20 @@ class USER {
 
     }
 
+    async authenticateUser(username, password) {
+        try {
+            const res = await pool.query(
+
+                `SELECT username, password FROM useranime where username ='${username}' AND password = '${password}'`);
+            return res.rows;
+        }
+        catch (error) {
+            return 0;
+        }
+
+
+    }
+
 
 
 
