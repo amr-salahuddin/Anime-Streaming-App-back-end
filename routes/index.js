@@ -12,6 +12,8 @@ const CHARACTER = require('../models/character.js');
 const ANIMEAWARDS = require('../models/AnimeAwards.js');
 const COMMENT = require('../models/comment.js');
 const USER = require('../models/user.js');
+const FAVORITES = require('../models/favorites.js');
+const SONG = require('../models/Song.js');
 
 
 var user = new USER();
@@ -73,6 +75,10 @@ router.get('/', function (req, res, next) {
 
 
 var anime = new ANIME();
+var song = new SONG();
+
+var favorites = new FAVORITES();
+
 var comment = new COMMENT();
 
 var news = new NEWS();
@@ -202,9 +208,9 @@ router.post('/delete/author', (req, res, next) => {
 
 
 
-router.get('/select/singerByAnime', (req, res) => {
+router.get('/select/singerBySong', (req, res) => {
     let pars = req.query;
-    singer.selectSingerByAnime(pars.animeId).then(data => {
+    singer.selectSingerBySong(pars.songId).then(data => {
         res.json(data);
 
     })
@@ -627,6 +633,102 @@ router.post('/delete/comment', (req, res, next) => {
 });
 
 
+//--------------------------------FAVORITES-------------------------------------------------------------//--------------------------------FAVORITES-------------------------------------------------------------
+//--------------------------------FAVORITES-------------------------------------------------------------
+//--------------------------------FAVORITES-------------------------------------------------------------
+//--------------------------------FAVORITES-------------------------------------------------------------
+//--------------------------------FAVORITES-------------------------------------------------------------
+
+
+
+
+router.get('/select/allFavorites', (req, res) => {
+    favorites.selectAllFavorites().then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
+router.get('/select/favoritesByUser', (req, res) => {
+
+    favorites.selectFavoritesByUser(req.query.userId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+router.post('/insert/favorites', (req, res, next) => {
+    let pars = req.body;
+    favorites.insertFavorites(pars.userId, pars.animeId).then(data => {
+        res.json(data);
+    });
+
+
+
+});
+
+
+router.post('/delete/favorites', (req, res, next) => {
+    let pars = req.body;
+    favorites.deleteFavorites(pars.userId, pars.animeId).then(data => {
+        res.json(data);
+    });
+});
+
+
+
+
+//--------------------------------SONG-------------------------------------------------------------//--------------------------------SONG-------------------------------------------------------------
+//--------------------------------SONG-------------------------------------------------------------
+//--------------------------------SONG-------------------------------------------------------------
+//--------------------------------SONG-------------------------------------------------------------
+//--------------------------------SONG-------------------------------------------------------------
+
+
+
+
+router.get('/select/allSongs', (req, res) => {
+    song.selectAllSongs().then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
+router.get('/select/songByAnime', (req, res) => {
+
+    song.selectSongByAnime(req.query.animeId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+router.post('/insert/song', (req, res, next) => {
+    let pars = req.body;
+    song.insertSong(pars.songName, pars.singerId, pars.animeId).then(data => {
+        res.json(data);
+    });
+
+
+
+});
+
+
+router.post('/delete/song', (req, res, next) => {
+    let pars = req.body;
+    song.deleteSong(pars.songId).then(data => {
+        res.json(data);
+    });
+});
+
+
+
+
 //--------------------------------USER-------------------------------------------------------------//--------------------------------USER-------------------------------------------------------------
 //--------------------------------USER-------------------------------------------------------------
 //--------------------------------USER-------------------------------------------------------------
@@ -645,16 +747,6 @@ router.get('/select/allUsers', (req, res) => {
 
 });
 
-router.post('/insert/user', (req, res, next) => {
-    let pars = req.body;
-    console.log(getCurDateForInsertion());
-    user.insertUser(pars.username, pars.password, pars.email, pars.userAttribute, getCurDateForInsertion()).then(data => {
-        res.json(data);
-    });
-
-
-
-});
 
 router.post('/update/user', (req, res, next) => {
     let pars = req.body;
