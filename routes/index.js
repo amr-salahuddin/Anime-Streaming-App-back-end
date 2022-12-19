@@ -31,10 +31,10 @@ var jwt = require('jsonwebtoken');
 
 
 //signup
-router.post('/signup', function (req, res) {
+router.post('/register', function (req, res) {
     let pars = req.body;
 
-    user.insertUser(req.username, req.password, req.email, req.userAttribute, getCurDateForInsertion()).then(data => {
+    user.insertUser(pars.username, pars.password, pars.email, pars.userAttribute, getCurDateForInsertion()).then(data => {
         res.json(data);
 
     })
@@ -45,16 +45,20 @@ router.post('/signup', function (req, res) {
 //signin
 router.post('/login', function (req, res) {
     let pars = req.body;
-    // let thetoken = (pars.Token);
-    // if (thetoken)
-    //   console.log(thetoken);
-    user.authenticateUser(pars.username, pars.password).then(data => {
-        var token = jwt.sign({ data }, 'secret', { expiresIn: "10000ms" });
-        var decodedToken = jwt.decode(token);
-        console.log('Token:', token);
-        console.log('Decoded Token:', decodedToken);
-        res.json(data);
-    })
+    let thetoken = (pars.Token);
+    if (thetoken) {
+        var decodedToken = jwt.decode(thetoken);
+        var data = jwt.decode(data);
+        console.log(decodedToken);
+        return 1;
+    }
+    else {
+        user.authenticateUser(pars.username, pars.password).then(data => {
+            var thetoken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000ms" });
+            console.log('Decoded Token:', decodedToken);
+            res.json(thetoken);
+        })
+    }
 
 });
 

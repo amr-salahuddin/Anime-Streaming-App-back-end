@@ -67,7 +67,7 @@ class COMMENT {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Comment WHERE id = '${commentId}'`);
+                `DELETE FROM Comment WHERE id = ${commentId}`);
             return 1;
         }
         catch (error) {

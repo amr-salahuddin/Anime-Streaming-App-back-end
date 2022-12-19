@@ -34,9 +34,9 @@ class SINGER {
 
     }
 
-    async selectSingerByAnime(animeId) {
+    async selectSingerBySong(songId) {
         try {
-            let singerId = `(SELECT singer_id from anime where anime.id =${animeId})`;
+            let singerId = `(SELECT singer_id from song where song.id =${songId})`;
             const res = await pool.query(
 
                 `select * from singer where id = ${singerId}`)
@@ -71,7 +71,7 @@ class SINGER {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Singer WHERE id = '${singerId}'`);
+                `DELETE FROM Singer WHERE id = ${singerId}`);
             return 1;
         }
         catch (error) {

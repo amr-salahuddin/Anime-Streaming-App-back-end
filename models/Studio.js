@@ -70,7 +70,7 @@ class STUDIO {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Studio WHERE id = '${studioId}'`);
+                `DELETE FROM Studio WHERE id = ${studioId}`);
             return 1;
         }
         catch (error) {

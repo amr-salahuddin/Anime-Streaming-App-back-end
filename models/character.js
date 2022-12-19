@@ -70,7 +70,7 @@ class CHARACTER {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Character WHERE char_id = '${characterId}'`);
+                `DELETE FROM Character WHERE char_id = ${characterId}`);
             return 1;
         }
         catch (error) {

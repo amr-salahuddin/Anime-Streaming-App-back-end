@@ -70,7 +70,7 @@ class VA {
         try {
             const res = await pool.query(
 
-                `DELETE FROM VA WHERE va_id = '${vaId}'`);
+                `DELETE FROM VA WHERE va_id = ${vaId}`);
             return 1;
         }
         catch (error) {

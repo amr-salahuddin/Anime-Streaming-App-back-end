@@ -94,7 +94,7 @@ class ANIME {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Anime WHERE id = '${animeId}'`);
+                `DELETE FROM Anime WHERE id = ${animeId}`);
             return 1;
         }
         catch (error) {

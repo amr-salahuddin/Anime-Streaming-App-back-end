@@ -71,7 +71,7 @@ class AUTHOR {
         try {
             const res = await pool.query(
 
-                `DELETE FROM Author WHERE id = '${authorId}'`);
+                `DELETE FROM Author WHERE id = ${authorId}`);
             return 1;
         }
         catch (error) {
