@@ -4,14 +4,14 @@ const bcrypt = require('bcrypt');
 const { rows } = require('pg/lib/defaults');
 
 class USER {
-    async insertUser(username, password, email, userAttribute, dateCreated) {
+    async insertUser(username, password, email, admin, dateCreated) {
 
         try {
             let hashedPassword = await bcrypt.hash(password, 10);
 
             const res = await pool.query(
 
-                `INSERT INTO useranime (username,password,email,user_attribute,date_created) values ('${username}','${hashedPassword}','${email}',${userAttribute},'${dateCreated}');`);
+                `INSERT INTO useranime (username,password,email,admin,date_created) values ('${username}','${hashedPassword}','${email}',${admin},'${dateCreated}');`);
             return 1;
         }
         catch (error) {
@@ -70,11 +70,11 @@ class USER {
 
 
     }
-    async updateUser(username, password, email, userAttribute, userId) {
+    async updateUser(username, password, email, admin, userId) {
         try {
             const res = await pool.query(
 
-                `UPDATE useranime SET (username,password,email,user_attribute) = ('${username}','${password}','${email}',${userAttribute}) where id =${userId};`);
+                `UPDATE useranime SET (username,password,email,admin) = ('${username}','${password}','${email}',${admin}) where id =${userId};`);
             return 1;
         }
         catch (error) {
