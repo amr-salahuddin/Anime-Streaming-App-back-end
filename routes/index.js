@@ -110,6 +110,15 @@ router.get('/anime_list', (req, res) => {
 
 
 });
+router.get('/anime_list_favorites', (req, res) => {
+
+    anime.anime_list_favorites(req.query.userId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
 router.get('/anime_details', (req, res) => {
 
     anime.anime_details(req.query.animeId).then(data => {

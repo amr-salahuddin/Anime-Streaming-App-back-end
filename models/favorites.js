@@ -33,6 +33,9 @@ class FAVORITES {
 
     }
 
+
+
+
     async selectFavoritesByUser(userId) {
         try {
             const res = await pool.query(

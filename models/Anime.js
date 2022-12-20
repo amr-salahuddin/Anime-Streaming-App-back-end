@@ -39,6 +39,23 @@ class ANIME {
 
     }
 
+
+
+    async anime_list_favorites(userId) {
+        try {
+            let tst = `SELECT anime_id from favorites where user_id =${userId}`
+            const res = await pool.query(
+
+                `select id,anime_name,img_link,rate,episodes from anime  where id in (${tst})`)
+            return res.rows;
+        }
+        catch (error) {
+            console.error(error);
+        }
+
+
+    }
+
     async anime_details(animeId) {
         try {
             const anime = await pool.query
