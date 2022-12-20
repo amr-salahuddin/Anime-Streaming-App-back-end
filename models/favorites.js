@@ -6,11 +6,13 @@ class FAVORITES {
         try {
             const res = await pool.query(
 
-                `INSERT INTO FAVORITES (user_id,anime_id) values (${userId},${animeId});`);
-            return 1;
+                `INSERT INTO FAVORITES (user_id,anime_id) values (${userId}, ${animeId});`);
+            return res;
         }
         catch (error) {
-            return 0;
+            console.log(error);
+
+            return error;
         }
 
 
