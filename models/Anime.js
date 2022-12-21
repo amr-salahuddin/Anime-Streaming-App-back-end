@@ -3,7 +3,7 @@ const { pool } = require('./db');
 
 
 class ANIME {
-    async insertAnime(animeName, authorId, studioId, genre, rate, episodes, yearPub, imgLink) {
+    async insertAnime(animeName, authorId, studioId, genre, rate, yearPub, imgLink) {
 
         //const checkNo = await pool.query(`SELECT COUNT(anime_name) where anime_name =${animeName}`);
         // console.log(checkNo);
@@ -12,7 +12,7 @@ class ANIME {
 
             const res = await pool.query(
 
-                `INSERT INTO Anime (anime_name,author_id,studio_id,genre,rate,episodes,year_published,img_link) values('${animeName}',${authorId},${studioId},'${genre}',${rate},${episodes},${yearPub},'${imgLink}');`);
+                `INSERT INTO Anime (anime_name,author_id,studio_id,genre,rate,year_published,img_link) values('${animeName}',${authorId},${studioId},'${genre}',${rate},${yearPub},'${imgLink}');`);
             return 1;
         }
         catch (error) {
@@ -93,12 +93,27 @@ class ANIME {
 
     }
 
-    async updateAnime(animeName, authorId, studioId, genre, rate, episodes, yearPub, imgLink, animeId) {
+    async updateAnime(animeName, authorId, studioId, genre, rate, yearPub, imgLink, animeId) {
         try {
 
             const res = await pool.query(
 
-                `UPDATE Anime  SET (anime_name,author_id,studio_id,genre,rate,episodes,year_published,img_link) = ('${animeName}',${authorId},${studioId},'${genre}',${rate},${episodes},${yearPub},'${imgLink}') WHERE id='${animeId}';`);
+                `UPDATE Anime  SET (anime_name,author_id,studio_id,genre,rate,year_published,img_link) = ('${animeName}',${authorId},${studioId},'${genre}',${rate},${yearPub},'${imgLink}') WHERE id='${animeId}';`);
+            return 1;
+        }
+        catch (error) {
+            return 0;
+        }
+
+
+    }
+
+    async updateAnimeEpisodes(episodeNumber, anime_id) {
+        try {
+
+            const res = await pool.query(
+
+                `UPDATE Anime  SET (episodeNumber) =(${episodeNumber}) WHERE id='${animeId}';`);
             return 1;
         }
         catch (error) {

@@ -25,12 +25,12 @@ class USER {
         try {
             const res = await pool.query(
 
-                `SELECT username, password FROM useranime where username ='${username}'`);
+                `SELECT * FROM useranime where username ='${username}'`);
             if (res.rows[0]['username'] != null) {
 
                 const isCorrect = await bcrypt.compare(password, res.rows[0]['password']);
                 if (isCorrect)
-                    return res.rows[0];
+                    return res.rows[0]['id'];
                 else return 0;
             }
             else return 0;
