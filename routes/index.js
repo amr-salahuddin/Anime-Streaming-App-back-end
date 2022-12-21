@@ -165,6 +165,17 @@ router.post('/delete/anime', (req, res, next) => {
 //--------------------------------AUTHOR-------------------------------------------------------------
 //--------------------------------AUTHOR-------------------------------------------------------------
 
+
+router.get('/select/authorById', (req, res) => {
+    let pars = req.query;
+    author.selectAuthorById(pars.authorId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
 router.get('/select/authorByAnime', (req, res) => {
     let pars = req.query;
     author.selectAuthorByAnime(pars.animeId).then(data => {
@@ -332,6 +343,17 @@ router.post('insert/news', (req, res) => {
 //--------------------------------STUDIO-------------------------------------------------------------
 //--------------------------------STUDIO-------------------------------------------------------------
 
+
+
+router.get('/select/studioById', (req, res) => {
+    let pars = req.query;
+    studio.selectStudioById(pars.studioId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
 
 router.get('/select/studioByAnime', (req, res) => {
     let pars = req.query;

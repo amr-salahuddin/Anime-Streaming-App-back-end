@@ -56,7 +56,7 @@ class FAVORITES {
         try {
             const res = await pool.query(
 
-                `DELETE FROM FAVORITES WHERE anime_id = ${animeId} AND user_id =${userId} `);
+                `DELETE FROM FAVORITES WHERE anime_id = ${animeId} AND user_id =${userId}`);
             return 1;
         }
         catch (error) {

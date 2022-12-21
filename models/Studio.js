@@ -34,6 +34,22 @@ class STUDIO {
 
     }
 
+
+    async selectStudioById(studioId) {
+        try {
+            const res = await pool.query(
+
+                `select * from studio where id = ${studioId}`)
+            return res.rows;
+        }
+        catch (error) {
+            console.error(error);
+        }
+
+
+    }
+
+
     async selectStudioByAnime(animeId) {
         try {
             let studioId = `(SELECT studio_id from anime where anime.id =${animeId})`;

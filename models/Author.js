@@ -34,6 +34,23 @@ class AUTHOR {
 
     }
 
+
+    async selectAuthorById(authorId) {
+        try {
+            const res = await pool.query(
+
+                `select * from author where id = ${authorId}`)
+            return res.rows;
+        }
+        catch (error) {
+            console.error(error);
+        }
+
+
+    }
+
+
+
     async selectAuthorByAnime(animeId) {
         try {
             let authorId = `(SELECT author_id from anime where anime.id =${animeId})`;
