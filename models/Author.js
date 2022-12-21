@@ -40,7 +40,7 @@ class AUTHOR {
             const res = await pool.query(
 
                 `select * from author where id = ${authorId}`)
-            return res.rows;
+            return res.rows[0];
         }
         catch (error) {
             console.error(error);

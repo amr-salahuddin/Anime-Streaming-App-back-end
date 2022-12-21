@@ -36,7 +36,7 @@ var jwt = require('jsonwebtoken');
 router.post('/register', function (req, res) {
     let pars = req.body;
 
-    user.insertUser(pars.username, pars.password, pars.email, pars.userAttribute, getCurDateForInsertion()).then(data => {
+    user.insertUser(pars.username, pars.password, pars.email, 0, getCurDateForInsertion()).then(data => {
         res.json(data);
 
     })
@@ -56,9 +56,14 @@ router.post('/login', function (req, res) {
     }
     else {
         user.authenticateUser(pars.username, pars.password).then(data => {
-            var thetoken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000ms" });
-            console.log('Decoded Token:', decodedToken);
-            res.json(thetoken);
+            if (data === 0)
+                res.json(0);
+            else {
+                var thetoken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000ms" });
+                let decodedToken = jwt.decode(thetoken);
+                console.log('Decoded Token:', decodedToken);
+                res.json(thetoken);
+            }
         })
     }
 
