@@ -56,7 +56,10 @@ router.post('/login', function (req, res) {
         if (decodedToken === null)
             res.json({ "status": 0 });
         if (decodedToken['exp'] <= Date.now()) {
-            res.json({ "status": 1, "session_id": givenToken, "account_type": decodedToken['data']['admin'] });
+            let data = decodedToken['data'];
+            let newToken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1w" })
+            decodedToken['exp'] = Date.now();
+            res.json({ "status": 1, "session_id": newToken, "account_type": data['admin'] });
         }
         else res.json({ "status": 0 });
     }
