@@ -14,7 +14,7 @@ const COMMENT = require('../models/comment.js');
 const USER = require('../models/user.js');
 const FAVORITES = require('../models/favorites.js');
 const SONG = require('../models/Song.js');
-
+require('dotenv').config();
 
 var user = new USER();
 
@@ -57,7 +57,7 @@ router.post('/login', function (req, res) {
             res.json({ "status": 0 });
         if (decodedToken['exp'] <= Date.now()) {
             let data = decodedToken['data'];
-            let newToken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1w" })
+            let newToken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000ms" })
             decodedToken['exp'] = Date.now();
             res.json({ "status": 1, "session_id": newToken, "account_type": data['admin'] });
         }
@@ -68,7 +68,7 @@ router.post('/login', function (req, res) {
             if (data === 0)
                 res.json({ "status": 0 });
             else {
-                var token = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1w" });
+                var token = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000ms" });
                 let decodedToken = jwt.decode(token);
                 console.log('Decoded Token:', decodedToken);
                 console.log(data);
