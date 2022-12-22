@@ -30,6 +30,7 @@ function getCurDateForInsertion() {
 //PP
 
 var jwt = require('jsonwebtoken');
+const { token } = require('morgan');
 
 
 //signup
@@ -47,22 +48,28 @@ router.post('/register', function (req, res) {
 //signin
 router.post('/login', function (req, res) {
     let pars = req.body;
-    let thetoken = (pars.Token);
-    if (thetoken) {
-        var decodedToken = jwt.decode(thetoken);
-        var data = jwt.decode(data);
+    let givenToken = (pars.Token);
+    if (givenToken) {
+        console.log('lol');
+        var decodedToken = jwt.decode(givenToken);
         console.log(decodedToken);
-        return 1;
+        if (decodedToken === null)
+            res.json({ "status": 0 });
+        if (decodedToken['exp'] <= Date.now()) {
+            res.json({ "status": 1, "session_id": givenToken, "account_type": decodedToken['data']['admin'] });
+        }
+        else res.json({ "status": 0 });
     }
     else {
         user.authenticateUser(pars.username, pars.password).then(data => {
             if (data === 0)
-                res.json(0);
+                res.json({ "status": 0 });
             else {
-                var thetoken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000ms" });
-                let decodedToken = jwt.decode(thetoken);
+                var token = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1w" });
+                let decodedToken = jwt.decode(token);
                 console.log('Decoded Token:', decodedToken);
-                res.json(thetoken);
+                console.log(data);
+                res.json({ "status": 1, "session_id": token, "account_type": data['admin'] });
             }
         })
     }

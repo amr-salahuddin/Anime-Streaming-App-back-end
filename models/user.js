@@ -30,7 +30,7 @@ class USER {
 
                 const isCorrect = await bcrypt.compare(password, res.rows[0]['password']);
                 if (isCorrect)
-                    return res.rows[0]['id'];
+                    return res.rows[0];
                 else return 0;
             }
             else return 0;
