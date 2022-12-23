@@ -12,10 +12,10 @@ class USER {
             const res = await pool.query(
 
                 `INSERT INTO useranime (username,password,email,admin,date_created) values ('${username}','${hashedPassword}','${email}',${admin},'${dateCreated}');`);
-            return 1;
+            return { 'status': 1 };
         }
         catch (error) {
-            return 0;
+            return { 'status': 0, 'detail': error['detail'] }
         }
 
 
