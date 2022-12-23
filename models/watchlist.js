@@ -1,12 +1,12 @@
 const { pool } = require('./db');
 
 
-class FAVORITES {
-    async insertFavorites(userId, animeId) {
+class WATCHLIST {
+    async insertWatchlist(userId, animeId) {
         try {
             const res = await pool.query(
 
-                `INSERT INTO FAVORITES (user_id,anime_id) values (${userId}, ${animeId});`);
+                `INSERT INTO WATCHLIST (user_id,anime_id) values (${userId}, ${animeId});`);
             return 1;
         }
         catch (error) {
@@ -21,11 +21,11 @@ class FAVORITES {
 
 
 
-    async selectAllFavorites() {
+    async selectAllWatchlists() {
         try {
             const res = await pool.query(
 
-                "select * from FAVORITES;")
+                "select * from WATCHLIST;")
             return res.rows;
         }
         catch (error) {
@@ -38,11 +38,11 @@ class FAVORITES {
 
 
 
-    async selectFavoritesByUser(userId) {
+    async selectWatchlistByUser(userId) {
         try {
             const res = await pool.query(
 
-                `select * from FAVORITES where user_id = ${userId}`)
+                `select * from WATCHLIST where user_id = ${userId}`)
             return res.rows;
         }
         catch (error) {
@@ -52,11 +52,11 @@ class FAVORITES {
 
     }
 
-    async deleteFavorites(userId, animeId) {
+    async deleteWatchlist(userId, animeId) {
         try {
             const res = await pool.query(
 
-                `DELETE FROM FAVORITES WHERE anime_id = ${animeId} AND user_id =${userId}`);
+                `DELETE FROM WATCHLIST WHERE anime_id = ${animeId} AND user_id =${userId}`);
             return 1;
         }
         catch (error) {
@@ -67,4 +67,4 @@ class FAVORITES {
     }
 }
 
-module.exports = FAVORITES;
+module.exports = WATCHLIST;

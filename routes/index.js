@@ -13,6 +13,8 @@ const ANIMEAWARDS = require('../models/AnimeAwards.js');
 const COMMENT = require('../models/comment.js');
 const USER = require('../models/user.js');
 const FAVORITES = require('../models/favorites.js');
+const WATCHLIST = require('../models/watchlist.js');
+
 const SONG = require('../models/Song.js');
 require('dotenv').config();
 
@@ -93,6 +95,8 @@ var anime = new ANIME();
 var song = new SONG();
 
 var favorites = new FAVORITES();
+var watchlist = new WATCHLIST();
+
 
 var comment = new COMMENT();
 
@@ -722,6 +726,55 @@ router.post('/delete/favorites', (req, res, next) => {
         res.json(data);
     });
 });
+
+
+
+
+//--------------------------------WATCHLIST-------------------------------------------------------------//--------------------------------WATCHLIST-------------------------------------------------------------
+//--------------------------------WATCHLIST-------------------------------------------------------------
+//--------------------------------WATCHLIST-------------------------------------------------------------
+//--------------------------------WATCHLIST-------------------------------------------------------------
+//--------------------------------WATCHLIST-------------------------------------------------------------
+
+
+
+
+router.get('/select/allWatchlists', (req, res) => {
+    watchlist.selectAllWatchlists().then(data => {
+        res.json(data);
+
+    })
+
+
+});
+
+router.get('/select/watchlistByUser', (req, res) => {
+
+    watchlist.selectWatchlistByUser(req.query.userId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+router.post('/insert/watchlist', (req, res, next) => {
+    let pars = req.body;
+    watchlist.insertWatchlist(pars.userId, pars.animeId).then(data => {
+        res.json(data);
+    });
+
+
+
+});
+
+
+router.post('/delete/watchlist', (req, res, next) => {
+    let pars = req.body;
+    watchlist.deleteWatchlist(pars.userId, pars.animeId).then(data => {
+        res.json(data);
+    });
+});
+
 
 
 
