@@ -55,6 +55,20 @@ class ANIME {
 
 
     }
+    async anime_list_watchlist(userId) {
+        try {
+            let tst = `SELECT anime_id from watchlist where user_id =${userId}`
+            const res = await pool.query(
+
+                `select id,anime_name,img_link,rate,episodes from anime  where id in (${tst})`)
+            return res.rows;
+        }
+        catch (error) {
+            console.error(error);
+        }
+
+
+    }
 
     async anime_details(animeId) {
         try {

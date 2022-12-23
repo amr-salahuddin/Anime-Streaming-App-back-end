@@ -129,9 +129,18 @@ router.get('/anime_list', (req, res) => {
 
 
 });
-router.get('/anime_list_favorites', (req, res) => {
+router.post('/anime_list_favorites', (req, res) => {
 
-    anime.anime_list_favorites(req.query.userId).then(data => {
+    anime.anime_list_favorites(req.body.userId).then(data => {
+        res.json(data);
+
+    })
+
+
+});
+router.post('/anime_list_watchlist', (req, res) => {
+
+    anime.anime_list_watchlist(req.body.userId).then(data => {
         res.json(data);
 
     })
