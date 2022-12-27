@@ -830,7 +830,7 @@ router.get('/select/songByAnime', (req, res) => {
 });
 router.post('/insert/song', (req, res, next) => {
     let pars = req.body;
-    song.insertSong(pars.songName, pars.singerId, pars.animeId).then(data => {
+    song.insertSong(pars.songName, pars.singerId, pars.animeId, pars.datePublished).then(data => {
         res.json(data);
     });
 

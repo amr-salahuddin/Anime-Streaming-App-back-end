@@ -3,11 +3,11 @@ const { pool } = require('./db');
 
 
 class SONG {
-    async insertSong(songName, singerId, animeId) {
+    async insertSong(songName, singerId, animeId, datePublished) {
         try {
             const res = await pool.query(
 
-                `INSERT INTO Song (song_name,singer_id,anime_id) values ('${songName}',${singerId},${animeId});`);
+                `INSERT INTO Song (song_name,singer_id,anime_id,date_published) values ('${songName}',${singerId},${animeId},'${datePublished}');`);
             return 1;
         }
         catch (error) {
