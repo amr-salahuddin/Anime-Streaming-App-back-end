@@ -665,13 +665,17 @@ router.get('/select/commentsByAnime', (req, res) => {
 
 
 });
-router.post('/insert/comment', (req, res, next) => {
+router.post('/insert/Comment', (req, res, next) => {
     let pars = req.body;
-    console.log(getCurDateForInsertion());
-    comment.insertComment(pars.commentData, pars.userId, pars.animeId, getCurDateForInsertion()).then(data => {
-        res.json(data);
-    });
-
+    let token = pars.Token;
+    if (token) {
+        let decodedToken = jwt.decode(token);
+        console.log(getCurDateForInsertion());
+        comment.insertComment(pars.commentData, decodedToken['data']['id'], pars.animeId, getCurDateForInsertion()).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json('ERROR');
 
 
 });

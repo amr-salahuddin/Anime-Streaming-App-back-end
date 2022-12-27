@@ -8,7 +8,8 @@ class COMMENT {
             const res = await pool.query(
 
                 `INSERT INTO Comment (comment_data,user_id,anime_id,date_published) values ('${commentData}',${userId},${animeId},'${datePublished}');`);
-            return 1;
+            const res2 = await pool.query(`SELECT MAX(id) FROM COMMENT`);
+            return res2.rows[0]["max"];
         }
         catch (error) {
             return 0;
