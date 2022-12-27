@@ -672,10 +672,10 @@ router.post('/insert/Comment', (req, res, next) => {
         let decodedToken = jwt.decode(token);
         console.log(getCurDateForInsertion());
         comment.insertComment(pars.commentData, decodedToken['data']['id'], pars.animeId, getCurDateForInsertion()).then(data => {
-            res.json(data);
+            res.json({ "STATUS": 1, "commentId": data });
         });
     }
-    else res.json('ERROR');
+    else res.json({ "STATUS": 0 });
 
 
 });
