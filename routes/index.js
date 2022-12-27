@@ -845,12 +845,21 @@ router.post('/delete/song', (req, res, next) => {
 
 
 
-router.get('/select/allUsers', (req, res) => {
-    user.selectAllUsers().then(data => {
-        res.json(data);
+router.post('/select/allUsers', (req, res) => {
+    let token = req.body.Token;
+    if (token) {
+        let decodedToken = jwt.decode(token);
+        console.log(decodedToken['data']['admin']);
+        if (decodedToken['data']['admin'] == 1) {
 
-    })
+            user.selectAllUsers().then(data => {
+                res.json({ "STATUS": 1, "Users": data });
 
+            })
+        }
+        else res.json({ "STATUS": 0 });
+    }
+    else { res.json({ "STATUS": 0 }); }
 
 });
 
