@@ -61,7 +61,7 @@ router.post('/login', function (req, res) {
             let data = decodedToken['data'];
             let newToken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000ms" })
             decodedToken['exp'] = Date.now();
-            res.json({ "status": 1, "session_id": newToken, "account_type": data['admin'] });
+            res.json({ "status": 1, "session_id": newToken, "user_id": data['id'], "username": data['username'], "account_type": data['admin'] });
         }
         else res.json({ "status": 0 });
     }
