@@ -74,7 +74,8 @@ router.post('/login', function (req, res) {
                 let decodedToken = jwt.decode(token);
                 console.log('Decoded Token:', decodedToken);
                 console.log(data);
-                res.json({ "status": 1, "session_id": token, "account_type": data['admin'] });
+                res.json({ "status": 1, "session_id": token, "user_id": data['id'], "username": data['username'], "account_type": data['admin'] });
+
             }
         })
     }
