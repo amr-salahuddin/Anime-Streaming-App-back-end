@@ -680,18 +680,26 @@ router.post('/insert/Comment', (req, res, next) => {
 
 });
 
-router.post('/update/comment', (req, res, next) => {
+router.post('/update/Comment', (req, res, next) => {
     let pars = req.body;
     comment.updateComment(pars.commentData, pars.userId, pars.animeId, getCurDateForInsertion(), pars.commentId).then(data => {
         res.json(data);
     });
 });
 
-router.post('/delete/comment', (req, res, next) => {
+router.post('/delete/Comment', (req, res, next) => {
     let pars = req.body;
-    comment.deleteComment(pars.commentId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+    if (token) {
+        let decodedToken = jwt.decode(token);
+
+        comment.deleteComment(pars.commentId, 33, decodedToken['data']['admin']).then(data => {
+            res.json({ "STATUS": data });
+        });
+    }
+    else {
+        res.json({ "STATUS": 0 });
+    }
 });
 
 

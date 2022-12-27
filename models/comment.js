@@ -64,12 +64,20 @@ class COMMENT {
 
 
     }
-    async deleteComment(commentId) {
+    async deleteComment(commentId, userId, isAdmin) {
         try {
-            const res = await pool.query(
+            if (isAdmin) {
+                const res1 = await pool.query(
 
-                `DELETE FROM Comment WHERE id = ${commentId}`);
-            return 1;
+                    `DELETE FROM Comment WHERE id = ${commentId} AND user_id = ${userId}`);
+                return res1.rowCount;
+            }
+            else {
+                const res2 = await pool.query(
+
+                    `DELETE FROM Comment WHERE id = ${commentId} AND user_id = ${userId}`);
+                return res2['STATUS']['rowCount'];
+            }
         }
         catch (error) {
             return 0;
