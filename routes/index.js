@@ -73,10 +73,13 @@ router.post('/login', function (req, res) {
     else {
         user.authenticateUser(pars.username, pars.password).then(data => {
             console.log('ss');
-            if (data["STATUS"] == '0')
+            if (data["STATUS"] == 0) {
+                console.log('12312312');
                 res.json({ "STATUS": 0 });
+
+            }
             else {
-                var token = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000000ms" });
+                var token = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "10000ms" });
                 let decodedToken = jwt.decode(token);
                 console.log('Decoded Token:', decodedToken);
                 //res.json({ "status": 1, "session_id": token, "user": data['user'], "isBanned": data['banned'] > 0, "ban": data['ban'], "account_type": data['user']['admin'] });
