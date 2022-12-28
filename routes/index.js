@@ -329,7 +329,7 @@ router.get('/select/allNews', (req, res) => {
 
 });
 
-router.post('select/newsBy', (req, res) => {
+router.post('/select/newsBy', (req, res) => {
     let pars = req.body;
     news.selectNewsBy(pars.animeId).then(data => {
         res.json(data);
@@ -340,7 +340,7 @@ router.post('select/newsBy', (req, res) => {
 });
 
 
-router.post('delete/news', (req, res) => {
+router.post('/delete/news', (req, res) => {
     let pars = req.body;
     news.deleteNews(newsId).then(data => {
         res.json(data);
@@ -350,7 +350,7 @@ router.post('delete/news', (req, res) => {
 
 });
 
-router.post('update/news', (req, res) => {
+router.post('/update/news', (req, res) => {
     let pars = req.body;
     news.updateNews(pars.link, pars.imgLink, pars.animeId, getCurDateForInsertion(), pars.newsId).then(data => {
         res.json(data);
@@ -360,9 +360,10 @@ router.post('update/news', (req, res) => {
 
 });
 
-router.post('insert/news', (req, res) => {
+router.post('/insert/news', (req, res) => {
     let pars = req.body;
-    news.insertNews(pars.link, pars.imgLink, pars.animeId, getCurDateForInsertion()).then(data => {
+    console.log('asda');
+    news.insertNews(pars.link, pars.imgLink, pars.animeId, '2222-2-2').then(data => {
         res.json(data);
 
     })

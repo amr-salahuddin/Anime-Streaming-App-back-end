@@ -122,7 +122,7 @@ class ANIME {
 
     }
 
-    async updateAnimeEpisodes(episodeNumber, anime_id) {
+    async updateAnimeEpisodes(episodeNumber, animeId) {
         try {
 
             const res = await pool.query(

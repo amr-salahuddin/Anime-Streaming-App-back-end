@@ -22,7 +22,7 @@ class NEWS {
             const res = await pool.query(
 
                 `INSERT INTO NEWS (link,img_link,anime_id,publish_date) values('${link}','${imgLink}',${animeId},'${publishDate}')`);
-            return res.rows;
+            return res.rowCount;
         }
         catch (error) {
             return 0;

@@ -1,13 +1,15 @@
 
 const { pool } = require('./db');
+const ANIME = require('./Anime');
 
-
+const anime = new ANIME();
 class EPISODE {
     async insertEpisode(episodeNumber, episodeLink, animeId) {
         try {
             const res = await pool.query(
 
                 `INSERT INTO episodes (episode_number,episode_link,anime_id) values (${episodeNumber},'${episodeLink}',${animeId});`);
+            anime.updateAnimeEpisodes(episodeNumber, animeId);
             return 1;
         }
         catch (error) {
