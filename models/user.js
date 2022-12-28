@@ -27,8 +27,8 @@ class USER {
             const res = await pool.query(
 
                 `SELECT * FROM useranime where username ='${username}'`);
-            if (res.rows[0]['username'] != null) {
-
+            if (res.rowCount != 0) {
+                console.log('not null');
                 const isCorrect = await bcrypt.compare(password, res.rows[0]['password']);
                 if (isCorrect) {
                     console.log('hi');
@@ -41,12 +41,12 @@ class USER {
 
 
                 }
-                else return JSON.stringify({ "STATUS": 0 });
+                else return { "STATUS": 0 };
             }
-            else return JSON.stringify({ "STATUS": 0 });
+            else { console.log('null no catc'); return { "STATUS": 0 } };
         }
         catch (error) {
-            return JSON.stringify({ "STATUS": 0 });
+            return { "STATUS": 0 };
         }
 
 
