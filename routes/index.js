@@ -183,12 +183,20 @@ router.post('/anime_list_watchlist', (req, res) => {
 
 
 });
-router.get('/anime_details', (req, res) => {
+router.post('/anime_details', (req, res) => {
 
-    anime.anime_details(req.query.animeId).then(data => {
-        res.json(data);
+    let pars = req.body;
+    let token = pars.Token;
+    if (token) {
+        let decodedToken = jwt.decode(token);
+        anime.anime_details(decodedToken['data']['user']['id'], pars.animeId).then(data => {
+            res.json(data);
 
-    })
+        })
+    }
+    else res.json({ "STATUS": 0 });
+
+
 
 
 });

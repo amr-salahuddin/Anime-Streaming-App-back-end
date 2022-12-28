@@ -83,34 +83,41 @@ class ANIME {
 
     }
 
-    async anime_details(animeId) {
+    async anime_details(userId, animeId) {
         try {
             const anime = await pool.query
-                (`Select anime_name,rate,episodes,genre,img_link,year_published from anime where id=${animeId}`)
+                (`Select anime_name,rate,episodes,genre,img_link,year_published from anime where id=${animeId}`);
             const author = await pool.query(
 
                 `select author_name ,author.id from author , anime where anime.id=${animeId} AND author.id = author_id
-                `)
+                `);
             const studio = await pool.query(
 
                 `select studio_name ,studio.id from STUDIO , ANIME where anime.id=${animeId} AND studio.id = studio_id
-                   `)
+                   `);
             const song = await pool.query(
 
                 `select id,song_name ,singer_id,date_published from SONG where anime_id=${animeId}
-                        `)
+                        `);
             const character = await pool.query(
 
-                `SELECT * from character,va where anime_id=${animeId} AND character.va_id =va.va_id `)
+                `SELECT * from character,va where anime_id=${animeId} AND character.va_id =va.va_id `);
 
             const awards = await pool.query(
 
-                `SELECT   award_name   from anime_awards where anime_id=${animeId} `)
+                `SELECT   award_name   from anime_awards where anime_id=${animeId} `);
 
             const episodes = await pool.query(
 
-                `SELECT   episode_number,episode_link   from episodes where anime_id=${animeId} `)
-            let x = { 'anime': anime.rows[0], 'author': author.rows[0], 'studio': studio.rows[0], "songs": song.rows, "characters": character.rows, "awards": awards.rows, "episodes": episodes.rows };
+                `SELECT   episode_number,episode_link   from episodes where anime_id=${animeId} `);
+
+            const userRating = await pool.query(`SELECT rating FROM RATINGS where user_id =${userId} AND anime_id =${animeId}`);
+            let isRate = 0;
+            if (userRating.rowCount > 0)
+                isRate = userRating.rows[0]['rating'];
+            let x = {
+                'anime': anime.rows[0], 'rating': isRate, 'author': author.rows[0], 'studio': studio.rows[0], "songs": song.rows, "characters": character.rows, "awards": awards.rows, "episodes": episodes.rows
+            };
             return x;
         }
         catch (error) {
