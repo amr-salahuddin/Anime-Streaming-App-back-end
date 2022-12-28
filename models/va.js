@@ -54,7 +54,7 @@ class VA {
         try {
             const res = await pool.query(
 
-                `UPDATE VA SET (va_name,birth_date,va_img_link) = ('${vaName}','${birthDate}','${imgLink}') where va_id = '${vaId}';`);
+                `UPDATE VA SET (va_name,va_birth_date,va_img_link) = ('${vaName}','${birthDate}','${imgLink}') where va_id = '${vaId}';`);
             return 1;
         }
         catch (error) {
