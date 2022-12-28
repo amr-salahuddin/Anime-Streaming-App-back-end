@@ -7,7 +7,7 @@ class VA {
         try {
             const res = await pool.query(
 
-                `INSERT INTO VA (va_name,birth_date,va_img_link) values ('${vaName}','${birthDate}','${imgLink}');`);
+                `INSERT INTO VA (va_name,va_birth_date,va_img_link) values ('${vaName}','${birthDate}','${imgLink}');`);
             return 1;
         }
         catch (error) {
