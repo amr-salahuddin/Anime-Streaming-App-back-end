@@ -13,7 +13,7 @@ class ANIME {
             const res = await pool.query(
 
                 `INSERT INTO Anime (anime_name,author_id,studio_id,genre,rate,year_published,img_link) values('${animeName}',${authorId},${studioId},'${genre}',${rate},${yearPub},'${imgLink}');`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -129,6 +129,20 @@ class ANIME {
 
                 `UPDATE Anime  SET (episodeNumber) =(${episodeNumber}) WHERE id='${animeId}';`);
             return 1;
+        }
+        catch (error) {
+            return 0;
+        }
+
+
+    }
+    async updateAnimeRating(animeId, rating) {
+        try {
+
+            const res = await pool.query(
+
+                `UPDATE Anime  SET (rate) =(${rating}) WHERE id='${animeId}';`);
+            return res.rowCount;
         }
         catch (error) {
             return 0;

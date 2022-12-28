@@ -18,6 +18,7 @@ const WATCHLIST = require('../models/watchlist.js');
 const SONG = require('../models/Song.js');
 const BAN = require('../models/ban.js');
 const ENQUIRIES = require('../models/enquiries.js');
+const RATINGS = require('../models/ratings.js');
 
 require('dotenv').config();
 
@@ -118,6 +119,7 @@ var comment = new COMMENT();
 
 var news = new NEWS();
 var enquiries = new ENQUIRIES();
+var ratings = new RATINGS();
 
 var author = new AUTHOR();
 var singer = new SINGER();
@@ -185,7 +187,7 @@ router.get('/anime_details', (req, res) => {
 router.post('/insert/anime', (req, res, next) => {
     let pars = req.body;
     anime.insertAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.rate, pars.yearPub, pars.imgLink).then(data => {
-        res.json(data);
+        res.json({ "STATUS": data });
     });
 
 
@@ -958,6 +960,58 @@ router.post('/select/allEnquiries', (req, res, next) => {
     let token = pars.Token;
     console.log(token);
     if (token) {
+        console.log(decodedToken);
+        if (isAdmin(token)) {
+            enquiries.selectAllEnquiries().then(data => {
+                res.json({ "STATUS": 1, "data": data });
+            });
+        }
+        else res.json({ "STATUS": 0 });
+    }
+    else {
+        res.json({ "STATUS": 0 });
+    }
+});
+//RATINGS
+
+router.post('/insert/rating', (req, res, next) => {
+    let pars = req.body;
+    let token = pars.Token;
+    console.log(token);
+    if (token) {
+        let decodedToken = jwt.decode(token);
+        console.log(decodedToken);
+        ratings.insertRating(decodedToken['data']['user']['id'], pars.animeId, pars.rating).then(data => {
+            res.json({ "STATUS": data });
+            console.log('stat', data);
+        });
+    }
+    else {
+        res.json({ "STATUS": 0 });
+    }
+});
+
+router.post('/delete/rating', (req, res, next) => {
+    let pars = req.body;
+    let token = pars.Token;
+    console.log(token);
+    if (token) {
+        let decodedToken = jwt.decode(token);
+        console.log(decodedToken);
+        ratings.deleteRating(decodedToken['data']['user']['id'], pars.animeId).then(data => {
+            res.json({ "STATUS": data });
+        });
+    }
+    else {
+        res.json({ "STATUS": 0 });
+    }
+});
+router.post('/select/', (req, res, next) => {
+    let pars = req.body;
+    let token = pars.Token;
+    console.log(token);
+    if (token) {
+        console.log(decodedToken);
         if (isAdmin(token)) {
             enquiries.selectAllEnquiries().then(data => {
                 res.json({ "STATUS": 1, "data": data });
