@@ -997,7 +997,6 @@ router.post('/insert/rating', (req, res, next) => {
     console.log(token);
     if (token) {
         let decodedToken = jwt.decode(token);
-        console.log(decodedToken);
         ratings.insertRating(decodedToken['data']['user']['id'], pars.animeId, pars.rating).then(data => {
             res.json({ "STATUS": data });
         });
