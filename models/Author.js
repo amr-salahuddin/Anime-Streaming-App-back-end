@@ -8,7 +8,7 @@ class AUTHOR {
             const res = await pool.query(
 
                 `INSERT INTO Author (author_name,birth_date,years_active,anime_genre,img_link) values ('${authorName}','${birthDate}',${yearsActive},'${animeGenre}','${imgLink}');`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -73,7 +73,7 @@ class AUTHOR {
             const res = await pool.query(
 
                 `UPDATE Author SET (author_name,birth_date,years_active,anime_genre,img_link) = ('${authorName}','${birthDate}',${yearsActive},'${animeGenre}','${imgLink}') where id = ${authorId};`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -89,7 +89,7 @@ class AUTHOR {
             const res = await pool.query(
 
                 `DELETE FROM Author WHERE id = ${authorId}`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;

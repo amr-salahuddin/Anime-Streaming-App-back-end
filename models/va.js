@@ -8,7 +8,7 @@ class VA {
             const res = await pool.query(
 
                 `INSERT INTO VA (va_name,va_birth_date,va_img_link) values ('${vaName}','${birthDate}','${imgLink}');`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -55,7 +55,7 @@ class VA {
             const res = await pool.query(
 
                 `UPDATE VA SET (va_name,va_birth_date,va_img_link) = ('${vaName}','${birthDate}','${imgLink}') where va_id = '${vaId}';`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -71,7 +71,7 @@ class VA {
             const res = await pool.query(
 
                 `DELETE FROM VA WHERE va_id = ${vaId}`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;

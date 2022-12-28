@@ -8,7 +8,7 @@ class STUDIO {
             const res = await pool.query(
 
                 `INSERT INTO Studio (studio_name,founder,year_founded) values ('${studioName}','${founder}',${yearFounded});`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -72,7 +72,7 @@ class STUDIO {
             const res = await pool.query(
 
                 `UPDATE  Studio SET (studio_name,founder,year_founded) = ('${studioName}','${founder}',${yearFounded}) where id = ${studioId};`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -87,7 +87,7 @@ class STUDIO {
             const res = await pool.query(
 
                 `DELETE FROM Studio WHERE id = ${studioId}`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
