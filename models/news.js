@@ -49,7 +49,7 @@ class NEWS {
             const res = await pool.query(
                 `DELETE FROM NEWS WHERE id = ${newsId}`
             );
-            return res.rows;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
