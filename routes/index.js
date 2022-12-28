@@ -79,7 +79,6 @@ router.post('/login', function (req, res) {
                 var token = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000000ms" });
                 let decodedToken = jwt.decode(token);
                 console.log('Decoded Token:', decodedToken);
-                console.log('test', data[0]['STATUS']);
                 //res.json({ "status": 1, "session_id": token, "user": data['user'], "isBanned": data['banned'] > 0, "ban": data['ban'], "account_type": data['user']['admin'] });
                 let banned = data['banned'];
                 if (banned)
@@ -123,6 +122,12 @@ var character = new CHARACTER();
 var anime = new ANIME();
 var episode = new EPISODE();
 var animeaward = new ANIMEAWARDS();
+
+
+function isAdmin(token) {
+    let decodedToken = jwt.decode(token);
+    return token['data']['user']['admin'];
+}
 
 //--------------------------------ANIME-------------------------------------------------------------
 //--------------------------------ANIME-------------------------------------------------------------
@@ -189,9 +194,16 @@ router.post('/update/anime', (req, res, next) => {
 
 router.post('/delete/anime', (req, res) => {
     let pars = req.body;
-    anime.deleteAnime(pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+    if (token) {
+        if (isAdmin(token)) {
+            anime.deleteAnime(pars.animeId).then(data => {
+                res.json({ "STATUS": data });
+            });
+        }
+        else res.json({ "STATUS": 0 });
+    }
+    else res.json({ "STATUS": 0 });
 });
 
 
@@ -705,12 +717,11 @@ router.post('/delete/Comment', (req, res, next) => {
     let pars = req.body;
     let token = pars.Token;
     if (token) {
-        let decodedToken = jwt.decode(token);
-
-        comment.deleteComment(pars.commentId, 33, decodedToken['data']['admin']).then(data => {
+        comment.deleteComment(pars.commentId, token['data']['user']['id'], isAdmin(token)).then(data => {
             res.json({ "STATUS": data });
         });
     }
+
     else {
         res.json({ "STATUS": 0 });
     }
