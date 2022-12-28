@@ -17,6 +17,7 @@ const WATCHLIST = require('../models/watchlist.js');
 
 const SONG = require('../models/Song.js');
 const BAN = require('../models/ban.js');
+const ENQUIRIES = require('../models/enquiries.js');
 
 require('dotenv').config();
 
@@ -116,6 +117,7 @@ var watchlist = new WATCHLIST();
 var comment = new COMMENT();
 
 var news = new NEWS();
+var enquiries = new ENQUIRIES();
 
 var author = new AUTHOR();
 var singer = new SINGER();
@@ -908,6 +910,57 @@ router.post('/delete/ban', (req, res, next) => {
         if (decodedToken['data']['user']['admin']) {
             ban.deleteBan(pars.userId).then(data => {
                 res.json({ "STATUS": data });
+            });
+        }
+        else res.json({ "STATUS": 0 });
+    }
+    else {
+        res.json({ "STATUS": 0 });
+    }
+});
+//Enquiries
+
+router.post('/insert/enquiry', (req, res, next) => {
+    let pars = req.body;
+    let token = pars.Token;
+    console.log(token);
+    if (token) {
+        let decodedToken = jwt.decode(token);
+        console.log(decodedToken);
+        enquiries.insertEnquiry(decodedToken['data']['user']['id'], pars.message, pars.type, getCurDateForInsertion()).then(data => {
+            res.json({ "STATUS": data });
+        });
+    }
+    else {
+        res.json({ "STATUS": 0 });
+    }
+});
+
+router.post('/delete/enquiry', (req, res, next) => {
+    let pars = req.body;
+    let token = pars.Token;
+    console.log(token);
+    if (token) {
+
+        if (isAdmin(token)) {
+            enquiries.deleteEnquiry(pars.enquiryId).then(data => {
+                res.json({ "STATUS": data });
+            });
+        }
+        else res.json({ "STATUS": 0 });
+    }
+    else {
+        res.json({ "STATUS": 0 });
+    }
+});
+router.post('/select/allEnquiries', (req, res, next) => {
+    let pars = req.body;
+    let token = pars.Token;
+    console.log(token);
+    if (token) {
+        if (isAdmin(token)) {
+            enquiries.selectAllEnquiries().then(data => {
+                res.json({ "STATUS": 1, "data": data });
             });
         }
         else res.json({ "STATUS": 0 });
