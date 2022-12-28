@@ -8,7 +8,7 @@ class CHARACTER {
             const res = await pool.query(
 
                 `INSERT INTO Character (character_name,character_role,va_id,anime_id,char_img_link) values ('${characterName}',${characterRole},${vaId},${animeId},'${imgLink}');`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;

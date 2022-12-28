@@ -76,7 +76,6 @@ router.post('/login', function (req, res) {
             if (data['STATUS'] == 0)
                 res.json({ "STATUS": 0 });
             else {
-                let toBeSigned = data;
                 var token = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000000ms" });
                 let decodedToken = jwt.decode(token);
                 console.log('Decoded Token:', decodedToken);
@@ -85,6 +84,7 @@ router.post('/login', function (req, res) {
                 let banned = data['banned'];
                 if (banned)
                     banned = 2;
+
                 else banned = 1;
                 res.json({ 'STATUS': banned, 'session_id': token, 'ban': data['ban'], 'user': data['user'] });
             }
@@ -345,7 +345,7 @@ router.post('/select/newsBy', (req, res) => {
 
 router.post('/delete/news', (req, res) => {
     let pars = req.body;
-    news.deleteNews(newsId).then(data => {
+    news.deleteNews(pars.newsId).then(data => {
         res.json(data);
 
     })
