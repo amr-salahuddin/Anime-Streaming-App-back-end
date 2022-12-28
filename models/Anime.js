@@ -141,7 +141,7 @@ class ANIME {
             const res = await pool.query(
 
                 `DELETE FROM Anime WHERE id = ${animeId}`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;

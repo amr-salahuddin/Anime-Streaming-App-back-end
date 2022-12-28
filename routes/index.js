@@ -187,7 +187,7 @@ router.post('/update/anime', (req, res, next) => {
     });
 });
 
-router.post('/delete/anime', (req, res, next) => {
+router.post('/delete/anime', (req, res) => {
     let pars = req.body;
     anime.deleteAnime(pars.animeId).then(data => {
         res.json(data);
