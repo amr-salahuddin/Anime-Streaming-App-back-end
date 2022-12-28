@@ -203,19 +203,32 @@ router.post('/anime_details', (req, res) => {
 
 router.post('/insert/anime', (req, res, next) => {
     let pars = req.body;
-    anime.insertAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.yearPub, pars.imgLink).then(data => {
-        res.json({ "STATUS": data });
-    });
-
+    let token = pars.Token;
+    if (token) {
+        if (isAdmin(token)) {
+            anime.insertAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.yearPub, pars.imgLink).then(data => {
+                res.json({ "STATUS": data });
+            });
+        }
+        else {
+            res.json({ "STATUS": 0 });
+        }
+    }
+    else res.json({ "STATUS": 0 });
 
 
 });
 
 router.post('/update/anime', (req, res, next) => {
     let pars = req.body;
-    anime.updateAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.yearPub, pars.imgLink, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        anime.updateAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.yearPub, pars.imgLink, pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
 });
 
 router.post('/delete/anime', (req, res) => {
@@ -274,26 +287,42 @@ router.get('/select/allAuthors', (req, res) => {
 });
 router.post('/insert/author', (req, res, next) => {
     let pars = req.body;
-    author.insertAuthor(pars.authorName, pars.birthDate, pars.yearsActive, pars.animeGenre, pars.imgLink).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
 
+    if (token && isAdmin(token)) {
+        author.insertAuthor(pars.authorName, pars.birthDate, pars.yearsActive, pars.animeGenre, pars.imgLink).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
 
 
 });
 
 router.post('/update/author', (req, res, next) => {
     let pars = req.body;
-    author.updateAuthor(pars.authorName, pars.birthDate, pars.yearsActive, pars.animeGenre, pars.imgLink, pars.authorId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        author.updateAuthor(pars.authorName, pars.birthDate, pars.yearsActive, pars.animeGenre, pars.imgLink, pars.authorId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 router.post('/delete/author', (req, res, next) => {
     let pars = req.body;
-    author.deleteAuthor(pars.authorName).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        author.deleteAuthor(pars.authorName).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 
@@ -326,9 +355,14 @@ router.get('/select/allSingers', (req, res) => {
 });
 router.post('/insert/singer', (req, res, next) => {
     let pars = req.body;
-    singer.insertSinger(pars.singerName, pars.birthDate, pars.imgLink).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        singer.insertSinger(pars.singerName, pars.birthDate, pars.imgLink).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
 
 
 
@@ -336,16 +370,28 @@ router.post('/insert/singer', (req, res, next) => {
 
 router.post('/update/singer', (req, res, next) => {
     let pars = req.body;
-    singer.updateSinger(pars.singerName, pars.birthDate, pars.imgLink, pars.singerId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        singer.updateSinger(pars.singerName, pars.birthDate, pars.imgLink, pars.singerId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 router.post('/delete/singer', (req, res, next) => {
     let pars = req.body;
-    singer.deleteSinger(pars.singerId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        singer.deleteSinger(pars.singerId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 
@@ -382,33 +428,46 @@ router.post('/select/newsBy', (req, res) => {
 
 
 router.post('/delete/news', (req, res) => {
-    let pars = req.body;
-    news.deleteNews(pars.newsId).then(data => {
-        res.json(data);
+    let pars = req.body; let token = pars.Token;
 
-    })
+    if (token && isAdmin(token)) {
+        news.deleteNews(pars.newsId).then(data => {
+            res.json(data);
 
+        });
+
+    }
+    else res.json({ "STATUS": 0 });
 
 });
 
 router.post('/update/news', (req, res) => {
     let pars = req.body;
-    news.updateNews(pars.link, pars.imgLink, pars.animeId, getCurDateForInsertion(), pars.newsId).then(data => {
-        res.json(data);
+    let token = pars.Token;
 
-    })
+    if (token && isAdmin(token)) {
+        news.updateNews(pars.link, pars.imgLink, pars.animeId, getCurDateForInsertion(), pars.newsId).then(data => {
+            res.json(data);
+
+        });
+    }
+    else res.json({ "STATUS": 0 });
 
 
 });
 
 router.post('/insert/news', (req, res) => {
     let pars = req.body;
-    console.log('asda');
-    news.insertNews(pars.link, pars.imgLink, pars.animeId, getCurDateForInsertion()).then(data => {
-        res.json(data);
+    let token = pars.Token;
 
-    })
+    if (token && isAdmin(token)) {
+        news.insertNews(pars.link, pars.imgLink, pars.animeId, getCurDateForInsertion()).then(data => {
+            res.json(data);
 
+        })
+    }
+
+    else res.json({ "STATUS": 0 });
 
 });
 
@@ -454,26 +513,42 @@ router.get('/select/allStudios', (req, res) => {
 });
 router.post('/insert/studio', (req, res, next) => {
     let pars = req.body;
-    studio.insertStudio(pars.studioName, pars.founder, pars.yearFounded).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
 
+    if (token && isAdmin(token)) {
+        studio.insertStudio(pars.studioName, pars.founder, pars.yearFounded).then(data => {
+            res.json(data);
+        });
 
+    }
+    else res.json({ "STATUS": 0 });
 
 });
 
 router.post('/update/studio', (req, res, next) => {
     let pars = req.body;
-    studio.updateStudio(pars.studioName, pars.founder, pars.yearFounded, pars.studioId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        studio.updateStudio(pars.studioName, pars.founder, pars.yearFounded, pars.studioId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 router.post('/delete/studio', (req, res, next) => {
     let pars = req.body;
-    studio.deleteStudio(pars.studioId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        studio.deleteStudio(pars.studioId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 
@@ -508,26 +583,42 @@ router.get('/select/allVAs', (req, res) => {
 });
 router.post('/insert/va', (req, res, next) => {
     let pars = req.body;
-    va.insertVA(pars.vaName, pars.birthDate, pars.imgLink).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
 
+    if (token && isAdmin(token)) {
+        va.insertVA(pars.vaName, pars.birthDate, pars.imgLink).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
 
 
 });
 
 router.post('/update/va', (req, res, next) => {
     let pars = req.body;
-    va.updateVA(pars.vaName, pars.birthDate, pars.imgLink, pars.vaId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        va.updateVA(pars.vaName, pars.birthDate, pars.imgLink, pars.vaId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 router.post('/delete/va', (req, res, next) => {
     let pars = req.body;
-    va.deleteVA(pars.vaId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        va.deleteVA(pars.vaId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 
@@ -561,26 +652,41 @@ router.get('/select/characterByAnime', (req, res) => {
 });
 router.post('/insert/character', (req, res, next) => {
     let pars = req.body;
-    character.insertCharacter(pars.characterName, pars.characterRole, pars.vaId, pars.animeId, pars.imgLink).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
 
+    if (token && isAdmin(token)) {
+        character.insertCharacter(pars.characterName, pars.characterRole, pars.vaId, pars.animeId, pars.imgLink).then(data => {
+            res.json(data);
+        });
 
+    }
+    else res.json({ "STATUS": 0 });
 
 });
 
 router.post('/update/character', (req, res, next) => {
     let pars = req.body;
-    character.updateCharacter(pars.characterName, pars.characterRole, pars.vaId, pars.animeId, pars.imgLink, pars.characterId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        character.updateCharacter(pars.characterName, pars.characterRole, pars.vaId, pars.animeId, pars.imgLink, pars.characterId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 router.post('/delete/character', (req, res, next) => {
-    let pars = req.body;
-    character.deleteCharacter(pars.characterId).then(data => {
-        res.json(data);
-    });
+    let pars = req.body; let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        character.deleteCharacter(pars.characterId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 
@@ -614,25 +720,41 @@ router.get('/select/episodeByAnime', (req, res) => {
 });
 router.post('/insert/episode', (req, res, next) => {
     let pars = req.body;
-    episode.insertEpisode(pars.episodeNumber, pars.episodeLink, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
 
+    if (token && isAdmin(token)) {
+        episode.insertEpisode(pars.episodeNumber, pars.episodeLink, pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
 
 });
 
 router.post('/update/episode', (req, res, next) => {
     let pars = req.body;
-    episode.updateEpisode(pars.episodeNumber, pars.episodeLink, pars.old_episodeNumber, pars.animeId,).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        episode.updateEpisode(pars.episodeNumber, pars.episodeLink, pars.old_episodeNumber, pars.animeId,).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 router.post('/delete/episode', (req, res, next) => {
     let pars = req.body;
-    episode.deleteEpisode(pars.episodeNumber, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        episode.deleteEpisode(pars.episodeNumber, pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 
@@ -666,26 +788,44 @@ router.get('/select/animeAwardsByAnime', (req, res) => {
 });
 router.post('/insert/animeaward', (req, res, next) => {
     let pars = req.body;
-    animeaward.insertAnimeAward(pars.awardName, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
 
+    if (token && isAdmin(token)) {
+        animeaward.insertAnimeAward(pars.awardName, pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
+
+    else res.json({ "STATUS": 0 });
 
 
 });
 
 router.post('/update/animeaward', (req, res, next) => {
     let pars = req.body;
-    animeaward.updateAnimeAward(pars.awardName, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        animeaward.updateAnimeAward(pars.awardName, pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
+
+    else res.json({ "STATUS": 0 });
+
 });
 
 router.post('/delete/animeaward', (req, res, next) => {
     let pars = req.body;
-    animeaward.deleteAnimeAward(pars.awardName, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token && isAdmin(token)) {
+        animeaward.deleteAnimeAward(pars.awardName, pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 
@@ -785,20 +925,35 @@ router.get('/select/favoritesByUser', (req, res) => {
 });
 router.post('/insert/favorites', (req, res, next) => {
     let pars = req.body;
-    favorites.insertFavorites(pars.userId, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
 
+    if (token) {
+        let decodedToken = jwt.decode(token);
+        favorites.insertFavorites(decodedToken['data']['user']['id'], pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
 
+    else res.json({ "STATUS": 0 });
 
 });
 
 
 router.post('/delete/favorites', (req, res, next) => {
     let pars = req.body;
-    favorites.deleteFavorites(pars.userId, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token) {
+        let decodedToken = jwt.decode(token);
+
+        favorites.deleteFavorites(decodedToken['data']['user']['id'], pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
+
+
+    else res.json({ "STATUS": 0 });
+
 });
 
 
@@ -833,20 +988,34 @@ router.get('/select/watchlistByUser', (req, res) => {
 });
 router.post('/insert/watchlist', (req, res, next) => {
     let pars = req.body;
-    watchlist.insertWatchlist(pars.userId, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
 
+    if (token) {
+        let decodedToken = jwt.decode(token);
 
+        watchlist.insertWatchlist(decodedToken['data']['user']['id'], pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
+
+    else res.json({ "STATUS": 0 });
 
 });
 
 
 router.post('/delete/watchlist', (req, res, next) => {
     let pars = req.body;
-    watchlist.deleteWatchlist(pars.userId, pars.animeId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+
+    if (token) {
+        let decodedToken = jwt.decode(token);
+
+        watchlist.deleteWatchlist(decodedToken['data']['user']['id'], pars.animeId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 
@@ -882,20 +1051,29 @@ router.get('/select/songByAnime', (req, res) => {
 });
 router.post('/insert/song', (req, res, next) => {
     let pars = req.body;
-    song.insertSong(pars.songName, pars.singerId, pars.animeId, pars.datePublished).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+    if (token && isAdmin(token)) {
 
+        song.insertSong(pars.songName, pars.singerId, pars.animeId, pars.datePublished).then(data => {
+            res.json(data);
+        });
 
+    }
+    else res.json({ "STATUS": 0 });
 
 });
 
 
 router.post('/delete/song', (req, res, next) => {
     let pars = req.body;
-    song.deleteSong(pars.songId).then(data => {
-        res.json(data);
-    });
+    let token = pars.Token;
+    if (token && isAdmin(token)) {
+        song.deleteSong(pars.songId).then(data => {
+            res.json(data);
+        });
+    }
+    else res.json({ "STATUS": 0 });
+
 });
 
 //BAN
@@ -1016,23 +1194,6 @@ router.post('/delete/rating', (req, res, next) => {
         ratings.deleteRating(decodedToken['data']['user']['id'], pars.animeId).then(data => {
             res.json({ "STATUS": data });
         });
-    }
-    else {
-        res.json({ "STATUS": 0 });
-    }
-});
-router.post('/select/', (req, res, next) => {
-    let pars = req.body;
-    let token = pars.Token;
-    console.log(token);
-    if (token) {
-        console.log(decodedToken);
-        if (isAdmin(token)) {
-            enquiries.selectAllEnquiries().then(data => {
-                res.json({ "STATUS": 1, "data": data });
-            });
-        }
-        else res.json({ "STATUS": 0 });
     }
     else {
         res.json({ "STATUS": 0 });
