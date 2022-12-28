@@ -1,6 +1,7 @@
 
 const { pool } = require('./db');
 const ANIME = require('./Anime');
+const { rows } = require('pg/lib/defaults');
 
 const anime = new ANIME();
 class BAN {
@@ -9,7 +10,7 @@ class BAN {
             const res = await pool.query(
 
                 `INSERT INTO Ban (user_id,ban_reason) values (${userId},'${banReason}');`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -25,7 +26,7 @@ class BAN {
         try {
             const res = await pool.query(
 
-                "select * from episodes;")
+                "select * from ban;")
             return res.rows;
         }
         catch (error) {
@@ -35,12 +36,12 @@ class BAN {
 
     }
 
-    async deleteBan(episodeNumber, animeId) {
+    async deleteBan(userId) {
         try {
             const res = await pool.query(
 
-                `DELETE FROM episodes WHERE anime_id = ${animeId} AND episode_number=${episodeNumber} `);
-            return 1;
+                `DELETE FROM ban WHERE user_id = ${userId} `);
+            return res.rowCount;
         }
         catch (error) {
             return 0;

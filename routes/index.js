@@ -16,6 +16,8 @@ const FAVORITES = require('../models/favorites.js');
 const WATCHLIST = require('../models/watchlist.js');
 
 const SONG = require('../models/Song.js');
+const BAN = require('../models/ban.js');
+
 require('dotenv').config();
 
 var user = new USER();
@@ -103,6 +105,7 @@ router.get('/', function (req, res, next) {
 
 var anime = new ANIME();
 var song = new SONG();
+var ban = new BAN();
 
 var favorites = new FAVORITES();
 var watchlist = new WATCHLIST();
@@ -856,6 +859,45 @@ router.post('/delete/song', (req, res, next) => {
     });
 });
 
+//BAN
+
+router.post('/insert/ban', (req, res, next) => {
+    let pars = req.body;
+    let token = pars.Token;
+    console.log(token);
+    if (token) {
+        let decodedToken = jwt.decode(token);
+        console.log(decodedToken);
+        if (decodedToken['data']['user']['admin']) {
+            ban.insertBan(pars.userId, pars.banReason).then(data => {
+                res.json({ "STATUS": data });
+            });
+        }
+        else res.json({ "STATUS": 0 });
+    }
+    else {
+        res.json({ "STATUS": 0 });
+    }
+});
+
+router.post('/delete/ban', (req, res, next) => {
+    let pars = req.body;
+    let token = pars.Token;
+    console.log(token);
+    if (token) {
+        let decodedToken = jwt.decode(token);
+        console.log(decodedToken);
+        if (decodedToken['data']['user']['admin']) {
+            ban.deleteBan(pars.userId).then(data => {
+                res.json({ "STATUS": data });
+            });
+        }
+        else res.json({ "STATUS": 0 });
+    }
+    else {
+        res.json({ "STATUS": 0 });
+    }
+});
 
 
 
