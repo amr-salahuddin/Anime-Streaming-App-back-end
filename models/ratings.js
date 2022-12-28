@@ -12,7 +12,7 @@ class RATINGS {
                 console.log('check', check.rowCount);
                 console.log('updateres1');
 
-                res1 = await pool.query(
+                let res1 = await pool.query(
                     `UPDATE  RATINGS SET rating = ${rating} WHERE anime_id = ${animeId} AND user_id = ${userId}`);
                 console.log('updateres1');
             }
@@ -26,14 +26,14 @@ class RATINGS {
                 console.log(x);
                 console.log('fsdafsdafasdf');
             }
+            console.log('24124');
             const res2 = await pool.query(
 
                 `SELECT COUNT(rating) , SUM(rating) from RATINGS WHERE anime_id =${animeId};`);
             let count = res2.rows[0]['count'];
             let sum = res2.rows[0]['sum'];
             console.log('count', sum / count);
-            console.log(x);
-
+            console.log('xxxxco')
             anime.updateAnimeRating(animeId, sum / count).then(data => {
                 console.log('sss', data);
 
@@ -44,7 +44,7 @@ class RATINGS {
             return 1;
         }
         catch (error) {
-            console.log('women');
+            console.log(error);
             return 0;
         }
     }

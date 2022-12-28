@@ -552,7 +552,7 @@ router.get('/select/allCharacters', (req, res) => {
 
 router.get('/select/characterByAnime', (req, res) => {
 
-    character.characterByAnime(req.query.animeId).then(data => {
+    character.selectCharacterByAnime(req.query.animeId).then(data => {
         res.json(data);
 
     })
