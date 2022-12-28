@@ -42,7 +42,7 @@ class ANIME {
         try {
             const res = await pool.query(
 
-                `select id,anime_name,img_link,rate,episodes from anime WHERE anime_name LIKE '%${searchWord}%'`)
+                `select id,anime_name,img_link,rate,episodes from anime WHERE anime_name ILIKE '%${searchWord}%'`)
             return res.rows;
         }
         catch (error) {
@@ -125,7 +125,7 @@ class ANIME {
 
             const res = await pool.query(
 
-                `UPDATE Anime  SET (anime_name,author_id,studio_id,genre,rate,year_published,img_link) = ('${animeName}',${authorId},${studioId},'${genre}',${rate},${yearPub},'${imgLink}') WHERE id='${animeId}';`);
+                `UPDATE Anime  SET (anime_name,author_id,studio_id,genre,rate,year_published,img_link) = ('${animeName}',${authorId},${studioId},'${genre}',${rate},${yearPub},'${imgLink}') WHERE id=${animeId};`);
             return 1;
         }
         catch (error) {
@@ -140,7 +140,7 @@ class ANIME {
 
             const res = await pool.query(
 
-                `UPDATE Anime  SET (episodeNumber) =(${episodeNumber}) WHERE id='${animeId}';`);
+                `UPDATE Anime  SET (episodeNumber) =(${episodeNumber}) WHERE id=${animeId};`);
             return 1;
         }
         catch (error) {

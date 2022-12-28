@@ -19,8 +19,13 @@ class RATINGS {
                     `SELECT COUNT(rating) , SUM(rating) from RATINGS WHERE anime_id =${animeId};`);
                 let count = res2.rows[0]['count'];
                 let sum = res2.rows[0]['sum'];
-                console.log('count', count, sum);
-                anime.updateAnimeRating(animeId, (sum / count));
+                console.log('count', sum / count);
+                console.log(x);
+
+                let tst;
+                anime.updateAnimeRating(animeId, (sum / count)).then(data => { tst = data; });
+                console.log('tttt', tst);
+
             }
 
             //console.log('test', res.rowCount);
