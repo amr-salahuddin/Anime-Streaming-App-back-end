@@ -3,7 +3,7 @@ const { pool } = require('./db');
 
 
 class ANIME {
-    async insertAnime(animeName, authorId, studioId, genre, rate, yearPub, imgLink) {
+    async insertAnime(animeName, authorId, studioId, genre, yearPub, imgLink) {
 
         //const checkNo = await pool.query(`SELECT COUNT(anime_name) where anime_name =${animeName}`);
         // console.log(checkNo);
@@ -12,11 +12,11 @@ class ANIME {
 
             const res = await pool.query(
 
-                `INSERT INTO Anime (anime_name,author_id,studio_id,genre,rate,year_published,img_link) values('${animeName}',${authorId},${studioId},'${genre}',${rate},${yearPub},'${imgLink}');`);
+                `INSERT INTO Anime (anime_name,author_id,studio_id,genre,year_published,img_link) values('${animeName}',${authorId},${studioId},'${genre}',${yearPub},'${imgLink}');`);
             return res.rowCount;
         }
         catch (error) {
-            return 0;
+            return error;
         }
 
 
