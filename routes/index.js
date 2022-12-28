@@ -363,7 +363,7 @@ router.post('/update/news', (req, res) => {
 router.post('/insert/news', (req, res) => {
     let pars = req.body;
     console.log('asda');
-    news.insertNews(pars.link, pars.imgLink, pars.animeId, '2222-2-2').then(data => {
+    news.insertNews(pars.link, pars.imgLink, pars.animeId, getCurDateForInsertion()).then(data => {
         res.json(data);
 
     })
