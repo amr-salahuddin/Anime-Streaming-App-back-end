@@ -203,7 +203,7 @@ router.post('/anime_details', (req, res) => {
 
 router.post('/insert/anime', (req, res, next) => {
     let pars = req.body;
-    anime.insertAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.rate, pars.yearPub, pars.imgLink).then(data => {
+    anime.insertAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.yearPub, pars.imgLink).then(data => {
         res.json({ "STATUS": data });
     });
 
@@ -571,7 +571,7 @@ router.post('/insert/character', (req, res, next) => {
 
 router.post('/update/character', (req, res, next) => {
     let pars = req.body;
-    character.updateCharacter(pars.characterName, pars.characterRole, pars.vaId, pars.animeId, pars.imgLink, characterId).then(data => {
+    character.updateCharacter(pars.characterName, pars.characterRole, pars.vaId, pars.animeId, pars.imgLink, pars.characterId).then(data => {
         res.json(data);
     });
 });
