@@ -1,6 +1,7 @@
 
 const { pool } = require('./db');
 const ANIME = require('./Anime');
+const { rows } = require('pg/lib/defaults');
 
 const anime = new ANIME();
 class EPISODE {
@@ -9,8 +10,13 @@ class EPISODE {
             const res = await pool.query(
 
                 `INSERT INTO episodes (episode_number,episode_link,anime_id) values (${episodeNumber},'${episodeLink}',${animeId});`);
-            anime.updateAnimeEpisodes(episodeNumber, animeId);
-            return 1;
+            if (res.rowCount > 0) {
+                anime.updateAnimeEpisodes(episodeNumber, animeId).then(data => {
+                    console.log('sss', data);
+
+                });
+            }
+            return res.rowCount;
         }
         catch (error) {
             return 0;

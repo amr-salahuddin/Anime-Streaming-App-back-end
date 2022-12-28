@@ -140,8 +140,8 @@ class ANIME {
 
             const res = await pool.query(
 
-                `UPDATE Anime  SET (episodeNumber) =(${episodeNumber}) WHERE id=${animeId};`);
-            return 1;
+                `UPDATE Anime  SET episodes = ${episodeNumber} WHERE id=${animeId};`);
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -154,7 +154,7 @@ class ANIME {
 
             const res = await pool.query(
 
-                `UPDATE Anime  SET (rate) = (${rating}) WHERE id=${animeId};`);
+                `UPDATE Anime  SET rate = ${rating} WHERE id=${animeId};`);
             return res.rowCount;
         }
         catch (error) {

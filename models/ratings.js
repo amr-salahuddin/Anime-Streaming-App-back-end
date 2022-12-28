@@ -13,7 +13,7 @@ class RATINGS {
                 `INSERT INTO RATINGS (user_id,anime_id,rating) values (${userId},${animeId},${rating});`);
             console.log(res.rowCount);
             const x = res.rowCount;
-            if (x) {
+            if (res.rowCount > 0) {
                 const res2 = await pool.query(
 
                     `SELECT COUNT(rating) , SUM(rating) from RATINGS WHERE anime_id =${animeId};`);
@@ -22,9 +22,10 @@ class RATINGS {
                 console.log('count', sum / count);
                 console.log(x);
 
-                let tst;
-                anime.updateAnimeRating(animeId, (sum / count)).then(data => { tst = data; });
-                console.log('tttt', tst);
+                anime.updateAnimeRating(animeId, sum / count).then(data => {
+                    console.log('sss', data);
+
+                });
 
             }
 
