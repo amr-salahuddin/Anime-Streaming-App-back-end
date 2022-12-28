@@ -213,7 +213,7 @@ router.post('/insert/anime', (req, res, next) => {
 
 router.post('/update/anime', (req, res, next) => {
     let pars = req.body;
-    anime.updateAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.rate, pars.yearPub, pars.imgLink, pars.animeId).then(data => {
+    anime.updateAnime(pars.animeName, pars.authorId, pars.studioId, pars.genre, pars.yearPub, pars.imgLink, pars.animeId).then(data => {
         res.json(data);
     });
 });
