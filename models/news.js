@@ -17,11 +17,11 @@ class NEWS {
 
 
     }
-    async insertNews(link, imgLink, animeId, studioId, characterId, singerId, authorId, vaId, publishDate) {
+    async insertNews(link, imgLink, animeId, publishDate) {
         try {
             const res = await pool.query(
 
-                `INSERT INTO NEWS (link,img_link,anime_id,studio_id,character_id,singer_id,author_id,va_id,publish_date) values('${link}','${imgLink}',${animeId},${studioId},${characterId},${singerId},${authorId},${vaId},'${publishDate}')`);
+                `INSERT INTO NEWS (link,img_link,anime_id,publish_date) values('${link}','${imgLink}',${animeId},'${publishDate}')`);
             return res.rows;
         }
         catch (error) {
@@ -30,11 +30,11 @@ class NEWS {
 
 
     }
-    async updateNews(link, imgLink, animeId, studioId, characterId, singerId, authorId, vaId, publishDate, newsId) {
+    async updateNews(link, imgLink, animeId, publishDate, newsId) {
         try {
             const res = await pool.query(
 
-                `UPDATE NEWS SET (link,img_link,anime_id,studio_id,character_id,singer_id,author_id,va_id,publish_date) = ('${link}','${imgLink}',${animeId},${studioId},${characterId},${singerId},${authorId},${vaId},'${publishDate}') WHERE id = ${newsId}`);
+                `UPDATE NEWS SET (link,img_link,anime_id = ('${link}','${imgLink}',${animeId},'${publishDate}') WHERE id = ${newsId}`);
             return res.rows;
         }
         catch (error) {
@@ -56,11 +56,11 @@ class NEWS {
         }
 
     }
-    async selectNewsBy(animeId, studioId, characterId, singerId, authorId, vaId) {
+    async selectNewsBy(animeId) {
         try {
             const res = await pool.query(
 
-                `SELECT * FROM news WHERE anime_id= ${animeId} AND author_id=${authorId} AND singer_id =${singerId} AND studio_id = ${studioId} AND character_id =${characterId} AND va_id = ${vaId} ORDER BY publish_date DESC`);
+                `SELECT * FROM news WHERE anime_id= ${animeId} ORDER BY publish_date DESC`);
             return res.rows;
         }
         catch (error) {

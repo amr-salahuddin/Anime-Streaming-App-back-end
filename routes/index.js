@@ -331,7 +331,7 @@ router.get('/select/allNews', (req, res) => {
 
 router.post('select/newsBy', (req, res) => {
     let pars = req.body;
-    news.selectNewsBy(pars.animeId, pars.studioId, pars.characterId, pars.singerId, pars.authorId, pars.vaId).then(data => {
+    news.selectNewsBy(pars.animeId).then(data => {
         res.json(data);
 
     })
@@ -352,7 +352,7 @@ router.post('delete/news', (req, res) => {
 
 router.post('update/news', (req, res) => {
     let pars = req.body;
-    news.updateNews(pars.link, pars.imgLink, pars.animeId, pars.studioId, pars.characterId, pars.singerId, pars.authorId, pars.vaId, getCurDateForInsertion(), pars.newsId).then(data => {
+    news.updateNews(pars.link, pars.imgLink, pars.animeId, getCurDateForInsertion(), pars.newsId).then(data => {
         res.json(data);
 
     })
@@ -362,7 +362,7 @@ router.post('update/news', (req, res) => {
 
 router.post('insert/news', (req, res) => {
     let pars = req.body;
-    news.insertNews(pars.link, pars.imgLink, pars.animeId, pars.studioId, pars.characterId, pars.singerId, pars.authorId, pars.vaId, getCurDateForInsertion()).then(data => {
+    news.insertNews(pars.link, pars.imgLink, pars.animeId, getCurDateForInsertion()).then(data => {
         res.json(data);
 
     })
