@@ -127,12 +127,12 @@ class ANIME {
 
     }
 
-    async updateAnime(animeName, authorId, studioId, genre, rate, yearPub, imgLink, animeId) {
+    async updateAnime(animeName, authorId, studioId, genre, yearPub, imgLink, animeId) {
         try {
 
             const res = await pool.query(
 
-                `UPDATE Anime  SET (anime_name,author_id,studio_id,genre,rate,year_published,img_link) = ('${animeName}',${authorId},${studioId},'${genre}',${rate},${yearPub},'${imgLink}') WHERE id=${animeId};`);
+                `UPDATE Anime  SET (anime_name,author_id,studio_id,genre,year_published,img_link) = ('${animeName}',${authorId},${studioId},'${genre}',${yearPub},'${imgLink}') WHERE id=${animeId};`);
             return 1;
         }
         catch (error) {
