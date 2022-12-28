@@ -25,7 +25,7 @@ class ENQUIRIES {
         try {
             const res = await pool.query(
 
-                "select enquiries.*,useranime.username from ENQUIRIES,useranime WHERE useranime.id = user_id;")
+                "select enquiries.*,useranime.username from ENQUIRIES,useranime WHERE useranime.id = user_id ORDER BY date_published DESC;")
             return res.rows;
         }
         catch (error) {
