@@ -33,6 +33,7 @@ function getCurDateForInsertion() {
 
 var jwt = require('jsonwebtoken');
 const { token } = require('morgan');
+const { rows } = require('pg/lib/defaults.js');
 
 
 //signup
@@ -59,23 +60,31 @@ router.post('/login', function (req, res) {
             res.json({ "status": 0 });
         if (decodedToken['exp'] <= Date.now()) {
             let data = decodedToken['data'];
-            let newToken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000ms" })
+            console.log(decodedToken);
+            let newToken = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000000ms" })
             decodedToken['exp'] = Date.now();
-            res.json({ "status": 1, "session_id": newToken, "user_id": data['id'], "username": data['username'], "account_type": data['admin'] });
+            console.log('hi again');
+            res.json({ "status": 1, "session_id": newToken, "user_id": data['user']['id'], "username": data['user']['username'], "account_type": data['user']['admin'] });
         }
         else res.json({ "status": 0 });
     }
     else {
         user.authenticateUser(pars.username, pars.password).then(data => {
-            if (data === 0)
-                res.json({ "status": 0 });
+            console.log('ss');
+            if (data['STATUS'] == 0)
+                res.json({ "STATUS": 0 });
             else {
-                var token = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000ms" });
+                let toBeSigned = data;
+                var token = jwt.sign({ data }, '!@$@$%^&*()*&^%$#EDASCSDXsecret', { expiresIn: "1000000ms" });
                 let decodedToken = jwt.decode(token);
                 console.log('Decoded Token:', decodedToken);
                 console.log(data);
-                res.json({ "status": 1, "session_id": token, "user_id": data['id'], "username": data['username'], "account_type": data['admin'] });
-
+                //res.json({ "status": 1, "session_id": token, "user": data['user'], "isBanned": data['banned'] > 0, "ban": data['ban'], "account_type": data['user']['admin'] });
+                let banned = data['banned'];
+                if (banned)
+                    banned = 2;
+                else banned = 1;
+                res.json({ 'STATUS': banned, 'session_id': token, 'ban': data['ban'], 'user': data['user'] });
             }
         })
     }

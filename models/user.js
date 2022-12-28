@@ -2,6 +2,7 @@
 const { pool } = require('./db');
 const bcrypt = require('bcrypt');
 const { rows } = require('pg/lib/defaults');
+const { json } = require('express');
 
 class USER {
     async insertUser(username, password, email, admin, dateCreated) {
@@ -29,14 +30,23 @@ class USER {
             if (res.rows[0]['username'] != null) {
 
                 const isCorrect = await bcrypt.compare(password, res.rows[0]['password']);
-                if (isCorrect)
-                    return res.rows[0];
-                else return 0;
+                if (isCorrect) {
+                    console.log('hi');
+                    res.rows[0]['password'] = password;
+                    const res2 = await pool.query(
+                        `SELECT * from ban where user_id= ${res.rows[0]['id']};`
+                    );
+                    console.log('hi');
+                    return { "STATUS": 1, "user": res.rows[0], "banned": res2.rowCount, "ban": res2.rows[0] };
+
+
+                }
+                else return JSON.stringify({ "STATUS": 0 });
             }
-            else return 0;
+            else return JSON.stringify({ "STATUS": 0 });
         }
         catch (error) {
-            return 0;
+            return JSON.stringify({ "STATUS": 0 });
         }
 
 
@@ -45,10 +55,13 @@ class USER {
     async selectUserById(userId) {
 
         try {
-            const res = await pool.query(
+            const res1 = await pool.query(
                 `SELECT * from useranime where id= ${userId};`
             );
-            return res.rows;
+            const res2 = await pool.query(
+                `SELECT * from ban where id= ${userId};`
+            );
+            return { "User": res.rows[0], "Banned": res2.rowCount, "Ban": res2.rows[0] };
 
         } catch (error) {
             return 0;
