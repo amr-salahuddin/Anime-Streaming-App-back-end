@@ -317,7 +317,7 @@ router.post('/delete/author', (req, res, next) => {
     let token = pars.Token;
 
     if (token && isAdmin(token)) {
-        author.deleteAuthor(pars.authorName).then(data => {
+        author.deleteAuthor(pars.authorId).then(data => {
             res.json({ "STATUS": data });
         });
     }
