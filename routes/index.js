@@ -126,7 +126,9 @@ var animeaward = new ANIMEAWARDS();
 
 function isAdmin(token) {
     let decodedToken = jwt.decode(token);
-    return token['data']['user']['admin'];
+    let x = decodedToken['data']['user']['admin'];
+    console.log(x);
+    return x;
 }
 
 //--------------------------------ANIME-------------------------------------------------------------
@@ -717,7 +719,9 @@ router.post('/delete/Comment', (req, res, next) => {
     let pars = req.body;
     let token = pars.Token;
     if (token) {
-        comment.deleteComment(pars.commentId, token['data']['user']['id'], isAdmin(token)).then(data => {
+        let decodedToken = jwt.decode(token);
+        console.log(decodedToken);
+        comment.deleteComment(pars.commentId, decodedToken['data']['user']['id'], isAdmin(token)).then(data => {
             res.json({ "STATUS": data });
         });
     }
