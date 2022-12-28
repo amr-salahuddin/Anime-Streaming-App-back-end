@@ -38,6 +38,19 @@ class ANIME {
 
 
     }
+    async anime_list_search(searchWord) {
+        try {
+            const res = await pool.query(
+
+                `select id,anime_name,img_link,rate,episodes from anime WHERE anime_name LIKE '%${searchWord}%'`)
+            return res.rows;
+        }
+        catch (error) {
+            console.error(error);
+        }
+
+
+    }
 
 
 
@@ -141,7 +154,7 @@ class ANIME {
 
             const res = await pool.query(
 
-                `UPDATE Anime  SET (rate) =(${rating}) WHERE id='${animeId}';`);
+                `UPDATE Anime  SET (rate) = (${rating}) WHERE id=${animeId};`);
             return res.rowCount;
         }
         catch (error) {

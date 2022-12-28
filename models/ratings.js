@@ -1,7 +1,9 @@
 const { user } = require('pg/lib/defaults');
 const { pool } = require('./db');
 
+const ANIME = require('./Anime');
 
+const anime = new ANIME();
 class RATINGS {
     async insertRating(userId, animeId, rating) {
         console.log(userId, animeId, rating);
@@ -11,16 +13,17 @@ class RATINGS {
                 `INSERT INTO RATINGS (user_id,anime_id,rating) values (${userId},${animeId},${rating});`);
             console.log(res.rowCount);
             const x = res.rowCount;
-            console.log('x:', x);
             if (x) {
-                console.log('y', x);
+                const res2 = await pool.query(
 
-
-                //  let count = res2.rows[0]['COUNT'];
-                ///let sum = res2.rows[0]['SUM'];
-                console.log(count, sum);
+                    `SELECT COUNT(rating) , SUM(rating) from RATINGS WHERE anime_id =${animeId};`);
+                let count = res2.rows[0]['count'];
+                let sum = res2.rows[0]['sum'];
+                console.log('count', count, sum);
+                anime.updateAnimeRating(animeId, (sum / count));
             }
-            console.log('test', res);
+
+            //console.log('test', res.rowCount);
             return x;
         }
         catch (error) {

@@ -165,6 +165,15 @@ router.post('/anime_list_favorites', (req, res) => {
 
 
 });
+router.post('/anime_list_search', (req, res) => {
+
+    anime.anime_list_search(req.body.searchWord).then(data => {
+        res.json(data);
+
+    })
+
+
+});
 router.post('/anime_list_watchlist', (req, res) => {
 
     anime.anime_list_watchlist(req.body.userId).then(data => {
@@ -983,7 +992,6 @@ router.post('/insert/rating', (req, res, next) => {
         console.log(decodedToken);
         ratings.insertRating(decodedToken['data']['user']['id'], pars.animeId, pars.rating).then(data => {
             res.json({ "STATUS": data });
-            console.log('stat', data);
         });
     }
     else {
