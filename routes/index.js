@@ -736,7 +736,7 @@ router.post('/update/episode', (req, res, next) => {
     let token = pars.Token;
 
     if (token && isAdmin(token)) {
-        episode.updateEpisode(pars.episodeNumber, pars.episodeLink, pars.old_episodeNumber, pars.animeId).then(data => {
+        episode.updateEpisode(pars.episodeNumber, pars.episodeLink, pars.animeId).then(data => {
             res.json({ "STATUS": data });
         });
     }
