@@ -711,7 +711,7 @@ router.get('/select/allEpisodes', (req, res) => {
 
 router.get('/select/episodeByAnime', (req, res) => {
 
-    episode.episodeByAnime(req.query.animeId).then(data => {
+    episode.selectEpisodeByAnime(req.query.animeId).then(data => {
         res.json(data);
 
     })
