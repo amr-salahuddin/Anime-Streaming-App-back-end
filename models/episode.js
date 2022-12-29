@@ -58,11 +58,11 @@ class EPISODE {
 
 
 
-    async updateEpisode(episodeNumber, episodeLink, old_episodeNumber, animeId) {
+    async updateEpisode(episodeNumber, episodeLink, animeId) {
         try {
             const res = await pool.query(
 
-                `UPDATE  episodes SET (episode_number,episode_link,anime_id) = (${episodeNumber},${episodeLink}) WHERE anime_id=${animeId} AND episode_number =${episodeNumber};`);
+                `UPDATE  episodes SET episode_link = '${episodeLink}' WHERE anime_id=${animeId} AND episode_number =${episodeNumber};`);
             return 1;
         }
         catch (error) {

@@ -73,6 +73,7 @@ class ANIMEAWARDS {
         }
         catch (error) {
             return 0;
+            console.log(error);
         }
 
 
