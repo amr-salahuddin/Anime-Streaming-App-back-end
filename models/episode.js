@@ -77,7 +77,7 @@ class EPISODE {
             const res = await pool.query(
 
                 `DELETE FROM episodes WHERE anime_id = ${animeId} AND episode_number=${episodeNumber} `);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
