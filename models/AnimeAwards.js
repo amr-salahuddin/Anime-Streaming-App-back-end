@@ -8,7 +8,7 @@ class ANIMEAWARDS {
             const res = await pool.query(
 
                 `INSERT INTO anime_awards (award_name,anime_id) values ('${awardName}',${animeId});`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -55,7 +55,7 @@ class ANIMEAWARDS {
             const res = await pool.query(
 
                 `UPDATE  anime_awards SET (award_name,anime_id) = ('${awardName}',${animeId}) WHERE anime_id=${animeId} AND award_name='${old_awardName}' ] ;`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -68,8 +68,8 @@ class ANIMEAWARDS {
         try {
             const res = await pool.query(
 
-                `DELETE FROM anime_awards WHERE anime_id = ${animeId} AND award_name=${awardName}`);
-            return 1;
+                `DELETE FROM anime_awards WHERE anime_id = ${animeId} AND award_name='${awardName}'`);
+            return res.rowCount;
         }
         catch (error) {
             return 0;
