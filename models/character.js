@@ -55,7 +55,7 @@ class CHARACTER {
             const res = await pool.query(
 
                 `UPDATE Character SET (character_name,character_role,va_id,anime_id,char_img_link) = ('${characterName}',${characterRole},${vaId},${animeId},'${imgLink}') where char_id = ${characterId};`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
@@ -71,7 +71,7 @@ class CHARACTER {
             const res = await pool.query(
 
                 `DELETE FROM Character WHERE char_id = ${characterId}`);
-            return 1;
+            return res.rowCount;
         }
         catch (error) {
             return 0;
