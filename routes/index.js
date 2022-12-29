@@ -1168,7 +1168,6 @@ router.post('/select/allEnquiries', (req, res, next) => {
     let token = pars.Token;
     console.log(token);
     if (token) {
-        console.log(decodedToken);
         if (isAdmin(token)) {
             enquiries.selectAllEnquiries().then(data => {
                 res.json({ "STATUS": 1, "data": data });
