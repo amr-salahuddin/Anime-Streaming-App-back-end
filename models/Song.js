@@ -50,11 +50,11 @@ class SONG {
 
 
 
-    async updateSong(songName, singerId, animeId, songId) {
+    async updateSong(songName, singerId, animeId, datePublished, songId) {
         try {
             const res = await pool.query(
 
-                `UPDATE Song SET (song_name,singer_id,anime_id) = ('${songName}',${singerId},${animeId}) where id = ${songId};`);
+                `UPDATE Song SET (song_name,singer_id,anime_id,date_published) = ('${songName}',${singerId},${animeId},'${datePublished}') where id = ${songId};`);
             return 1;
         }
         catch (error) {

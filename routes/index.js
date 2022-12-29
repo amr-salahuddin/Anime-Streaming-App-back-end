@@ -1062,6 +1062,19 @@ router.post('/insert/song', (req, res, next) => {
     else res.json({ "STATUS": 0 });
 
 });
+router.post('/update/song', (req, res, next) => {
+    let pars = req.body;
+    let token = pars.Token;
+    if (token && isAdmin(token)) {
+
+        song.updateSong(pars.songName, pars.singerId, pars.animeId, pars.datePublished, pars.songId).then(data => {
+            res.json({ "STATUS": data });
+        });
+
+    }
+    else res.json({ "STATUS": 0 });
+
+});
 
 
 router.post('/delete/song', (req, res, next) => {
